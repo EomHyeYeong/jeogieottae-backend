@@ -63,7 +63,7 @@ class ReservationControllerTest { /*모두 통과*/
 		ReservationRequest request = new ReservationRequest();
 		ReservationResponse response = ReservationResponse.builder()
 			.roomId(1L)
-			.accomodationName("Test Accomodation")
+			.accomodationName("Test Accommodation")
 			.roomName("Test Room")
 			.baseGuests(2)
 			.maxGuests(4)
@@ -86,7 +86,7 @@ class ReservationControllerTest { /*모두 통과*/
 			.andExpect(jsonPath("$.result.resultMessage").value("success"))
 			.andExpect(jsonPath("$.result.resultDescription").value(SuccessCode.RESERVATION_CONFIRMED.getDescription()))
 			.andExpect(jsonPath("$.body.roomId").value(1L))
-			.andExpect(jsonPath("$.body.accomodationName").value("Test Accomodation"))
+			.andExpect(jsonPath("$.body.accomodationName").value("Test Accommodation"))
 			.andExpect(jsonPath("$.body.roomName").value("Test Room"));
 
 		verify(reservationService).createConfirmedReservation(any(Long.class), any(ReservationRequest.class));
@@ -100,7 +100,7 @@ class ReservationControllerTest { /*모두 통과*/
 
 		ReservationSummaryResponse summaryResponse = ReservationSummaryResponse.builder()
 			.reservationId(1L)
-			.accomodationName("Test Accomodation")
+			.accomodationName("Test Accommodation")
 			.accomodationAddress("Test Address")
 			.roomName("Test Room")
 			.totalPrice(100)
@@ -125,7 +125,7 @@ class ReservationControllerTest { /*모두 통과*/
 			.andExpect(jsonPath("$.body.totalElements").value(1L))
 			.andExpect(jsonPath("$.body.totalPages").value(1))
 			.andExpect(jsonPath("$.body.content[0].reservationId").value(1L))
-			.andExpect(jsonPath("$.body.content[0].accomodationName").value("Test Accomodation"))
+			.andExpect(jsonPath("$.body.content[0].accomodationName").value("Test Accommodation"))
 			.andExpect(jsonPath("$.body.content[0].roomName").value("Test Room"));
 
 		verify(reservationService).getAllReservations(any(Long.class), anyInt());
@@ -139,7 +139,7 @@ class ReservationControllerTest { /*모두 통과*/
 
 		ReservationDetailResponse detailResponse = ReservationDetailResponse.builder()
 			.memberName("Test User")
-			.accomodationName("Test Accomodation")
+			.accomodationName("Test Accommodation")
 			.roomName("Test Room")
 			.roomPrice(100)
 			.baseGuests(2)
@@ -162,7 +162,7 @@ class ReservationControllerTest { /*모두 통과*/
 			.andExpect(jsonPath("$.result.resultMessage").value("success"))
 			.andExpect(jsonPath("$.result.resultDescription").value(SuccessCode.RESERVATION_DETAIL_RETRIEVED.getDescription()))
 			.andExpect(jsonPath("$.body.memberName").value("Test User"))
-			.andExpect(jsonPath("$.body.accomodationName").value("Test Accomodation"))
+			.andExpect(jsonPath("$.body.accomodationName").value("Test Accommodation"))
 			.andExpect(jsonPath("$.body.roomName").value("Test Room"));
 
 		verify(reservationService).getReservationDetail(any(Long.class), any(Long.class));

@@ -1,7 +1,7 @@
 package com.example.mini.domain.review.service;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.repository.AccomodationRepository;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.repository.AccommodationRepository;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.repository.MemberRepository;
 import com.example.mini.domain.reservation.entity.Reservation;
@@ -33,7 +33,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
-    private final AccomodationRepository accomodationRepository;
+    private final AccommodationRepository accommodationRepository;
     private final ReservationRepository reservationRepository;
 
     /**
@@ -48,7 +48,7 @@ public class ReviewService {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new GlobalException(ReviewErrorCode.MEMBER_NOT_FOUND));
 
-        Accomodation accomodation = accomodationRepository.findById(request.getAccomodationId())
+        Accommodation accommodation = accommodationRepository.findById(request.getAccomodationId())
             .orElseThrow(() -> new GlobalException(ReviewErrorCode.ACCOMODATION_NOT_FOUND));
 
         Reservation confirmedReservation = reservationRepository.findByMemberIdAndAccomodationIdAndStatus(
@@ -62,7 +62,7 @@ public class ReviewService {
             .comment(request.getComment())
             .star(request.getStar())
             .member(member)
-            .accomodation(accomodation)
+            .accommodation(accommodation)
             .reservation(confirmedReservation)
             .build();
         reviewRepository.save(review);
@@ -78,11 +78,11 @@ public class ReviewService {
      * @return                  리뷰 정보가 담긴 객체 리스트 반환
      */
     public PagedResponse<AccomodationReviewResponseDto> getReviewsByAccomodationId(Long accomodationId, int page) {
-        Accomodation accomodation = accomodationRepository.findById(accomodationId)
+        Accommodation accommodation = accommodationRepository.findById(accomodationId)
             .orElseThrow(() -> new GlobalException(ReviewErrorCode.ACCOMODATION_NOT_FOUND));
 
         int pageSize = 10;
-        Page<Review> reviewPage = reviewRepository.findByAccomodationOrderByCreatedAtDesc(accomodation, PageRequest.of(page - 1,
+        Page<Review> reviewPage = reviewRepository.findByAccomodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1,
             pageSize));
         List<AccomodationReviewResponseDto> content = reviewPage.stream()
             .map(AccomodationReviewResponseDto::toDto)

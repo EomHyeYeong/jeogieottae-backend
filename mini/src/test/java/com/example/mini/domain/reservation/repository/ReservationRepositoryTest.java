@@ -1,12 +1,12 @@
 package com.example.mini.domain.reservation.repository;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.entity.Room;
-import com.example.mini.domain.accomodation.entity.enums.AccomodationCategory;
-import com.example.mini.domain.accomodation.fixture.AccomodationEntityFixture;
-import com.example.mini.domain.accomodation.fixture.RoomEntityFixture;
-import com.example.mini.domain.accomodation.repository.AccomodationRepository;
-import com.example.mini.domain.accomodation.repository.RoomRepository;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.entity.Room;
+import com.example.mini.domain.accommodation.entity.enums.AccommodationCategory;
+import com.example.mini.domain.accommodation.fixture.AccommodationEntityFixture;
+import com.example.mini.domain.accommodation.fixture.RoomEntityFixture;
+import com.example.mini.domain.accommodation.repository.AccommodationRepository;
+import com.example.mini.domain.accommodation.repository.RoomRepository;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.fixture.MemberEntityFixture;
 import com.example.mini.domain.member.repository.MemberRepository;
@@ -43,13 +43,13 @@ public class ReservationRepositoryTest { /*수정 필요*/
 	private MemberRepository memberRepository;
 
 	@Autowired
-	private AccomodationRepository accomodationRepository;
+	private AccommodationRepository accommodationRepository;
 
 	@Autowired
 	private RoomRepository roomRepository;
 
 	private Member testMember;
-	private Accomodation testAccomodation;
+	private Accommodation testAccommodation;
 	private Room testRoom;
 	private Reservation testReservation;
 
@@ -58,20 +58,20 @@ public class ReservationRepositoryTest { /*수정 필요*/
 		// 기존 데이터를 삭제하여 중복을 방지
 		reservationRepository.deleteAll();
 		roomRepository.deleteAll();
-		accomodationRepository.deleteAll();
+		accommodationRepository.deleteAll();
 		memberRepository.deleteAll();
 
 		// 테스트 엔티티 생성 및 저장
 		testMember = MemberEntityFixture.getDefaultMember();
 		memberRepository.save(testMember);
 
-		testAccomodation = AccomodationEntityFixture.getAccomodationByCategory(AccomodationCategory.SEOUL);
-		accomodationRepository.save(testAccomodation);
+		testAccommodation = AccommodationEntityFixture.getAccomodationByCategory(AccommodationCategory.SEOUL);
+		accommodationRepository.save(testAccommodation);
 
-		testRoom = RoomEntityFixture.getDefaultRoom(testAccomodation);
+		testRoom = RoomEntityFixture.getDefaultRoom(testAccommodation);
 		roomRepository.save(testRoom);
 
-		testReservation = ReservationEntityFixture.getReservation(testMember, testAccomodation, testRoom);
+		testReservation = ReservationEntityFixture.getReservation(testMember, testAccommodation, testRoom);
 		reservationRepository.save(testReservation);
 	}
 
@@ -102,7 +102,7 @@ public class ReservationRepositoryTest { /*수정 필요*/
 
 	@Test
 	void testFindByMemberIdAndAccomodationIdAndStatus() {
-		Optional<Reservation> foundReservation = reservationRepository.findByMemberIdAndAccomodationIdAndStatus(testMember.getId(), testAccomodation.getId(), ReservationStatus.CONFIRMED);
+		Optional<Reservation> foundReservation = reservationRepository.findByMemberIdAndAccomodationIdAndStatus(testMember.getId(), testAccommodation.getId(), ReservationStatus.CONFIRMED);
 		assertThat(foundReservation).isPresent();
 		assertThat(foundReservation.get().getId()).isEqualTo(testReservation.getId());
 	}

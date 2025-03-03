@@ -1,7 +1,7 @@
 package com.example.mini.domain.cart.service;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.entity.Room;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.entity.Room;
 import com.example.mini.domain.cart.entity.Cart;
 import com.example.mini.domain.cart.model.request.AddCartItemRequest;
 import com.example.mini.domain.cart.model.request.ConfirmCartItemRequest;
@@ -11,7 +11,7 @@ import com.example.mini.domain.cart.model.response.CartResponse;
 import com.example.mini.domain.cart.repository.CartRepository;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.repository.MemberRepository;
-import com.example.mini.domain.accomodation.repository.RoomRepository;
+import com.example.mini.domain.accommodation.repository.RoomRepository;
 import com.example.mini.domain.reservation.entity.Reservation;
 import com.example.mini.domain.reservation.entity.enums.ReservationStatus;
 import com.example.mini.domain.reservation.repository.ReservationRepository;
@@ -64,7 +64,7 @@ public class CartServiceTest {
   private Cart cart;
   private Room room;
   private Reservation reservation;
-  private Accomodation accomodation;
+  private Accommodation accommodation;
 
   @BeforeEach
   public void setUp() {
@@ -75,9 +75,9 @@ public class CartServiceTest {
         .email("test@example.com")
         .build();
 
-    accomodation = Accomodation.builder()
+    accommodation = Accommodation.builder()
         .id(1L)
-        .name("Test Accomodation")
+        .name("Test Accommodation")
         .build();
 
     room = Room.builder()
@@ -87,7 +87,7 @@ public class CartServiceTest {
         .baseGuests(2)
         .maxGuests(4)
         .extraPersonCharge(20)
-        .accomodation(accomodation)
+        .accommodation(accommodation)
         .images(new ArrayList<>())
         .build();
 
@@ -95,7 +95,7 @@ public class CartServiceTest {
         .id(1L)
         .room(room)
         .member(member)
-        .accomodation(accomodation)
+        .accommodation(accommodation)
         .checkIn(LocalDateTime.of(2023, 6, 20, 14, 0))
         .checkOut(LocalDateTime.of(2023, 6, 23, 11, 0))
         .peopleNumber(2)
@@ -544,7 +544,7 @@ public class CartServiceTest {
         .id(2L)
         .room(room)
         .member(member)
-        .accomodation(accomodation)
+        .accommodation(accommodation)
         .checkIn(LocalDateTime.of(2023, 6, 24, 14, 0))
         .checkOut(LocalDateTime.of(2023, 6, 28, 11, 0))
         .peopleNumber(2)

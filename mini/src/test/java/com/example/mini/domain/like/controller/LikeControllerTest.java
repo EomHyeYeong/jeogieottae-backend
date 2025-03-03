@@ -10,8 +10,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.entity.AccomodationImage;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.entity.AccommodationImage;
 import com.example.mini.domain.like.service.LikeService;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.repository.MemberRepository;
@@ -62,9 +62,9 @@ class LikeControllerTest { /*모두 통과*/
 			.password("password")
 			.build();
 
-		Accomodation.builder()
+		Accommodation.builder()
 			.id(1L)
-			.name("Test Accomodation")
+			.name("Test Accommodation")
 			.build();
 
 		when(memberRepository.findById(any(Long.class))).thenReturn(Optional.of(member));
@@ -97,16 +97,16 @@ class LikeControllerTest { /*모두 통과*/
 	@Test
 	void 좋아요_숙소_조회_성공() throws Exception {
 		// Given
-		Accomodation accomodation = Accomodation.builder()
+		Accommodation accommodation = Accommodation.builder()
 			.id(1L)
 			.name("좋아요한 숙소")
 			.description("좋아요한 숙소 설명")
 			.postalCode("12345")
 			.address("서울시 강남구")
-			.images(List.of(AccomodationImage.builder().imgUrl("testImage.jpg").build()))
+			.images(List.of(AccommodationImage.builder().imgUrl("testImage.jpg").build()))
 			.build();
 
-		AccomodationResponse accomodationResponse = AccomodationResponse.toDto(accomodation);
+		AccomodationResponse accomodationResponse = AccomodationResponse.toDto(accommodation);
 
 		PagedResponse<AccomodationResponse> pagedResponse = new PagedResponse<>(1, 1L, Collections.singletonList(accomodationResponse));
 		when(likeService.getLikedAccomodations(any(Long.class), anyInt())).thenReturn(pagedResponse);

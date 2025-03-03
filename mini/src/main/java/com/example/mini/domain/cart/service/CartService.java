@@ -1,6 +1,6 @@
 package com.example.mini.domain.cart.service;
 
-import com.example.mini.domain.accomodation.entity.Room;
+import com.example.mini.domain.accommodation.entity.Room;
 import com.example.mini.domain.cart.entity.Cart;
 import com.example.mini.domain.cart.model.request.AddCartItemRequest;
 import com.example.mini.domain.cart.model.request.ConfirmCartItemRequest;
@@ -9,7 +9,7 @@ import com.example.mini.domain.cart.model.response.CartConfirmResponse;
 import com.example.mini.domain.cart.repository.CartRepository;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.repository.MemberRepository;
-import com.example.mini.domain.accomodation.repository.RoomRepository;
+import com.example.mini.domain.accommodation.repository.RoomRepository;
 import com.example.mini.domain.cart.model.response.CartResponse;
 import com.example.mini.domain.reservation.entity.Reservation;
 import com.example.mini.domain.reservation.entity.enums.ReservationStatus;
@@ -111,7 +111,7 @@ public class CartService {
         .totalPrice(finalPrice)
         .checkIn(request.getCheckIn())
         .checkOut(request.getCheckOut())
-        .accomodation(room.getAccomodation())
+        .accommodation(room.getAccommodation())
         .member(member)
         .room(room)
         .status(ReservationStatus.PENDING)
@@ -197,7 +197,7 @@ public class CartService {
   private CartConfirmResponse createCartConfirmResponse(Reservation reservation, ConfirmCartItemRequest request) {
     return CartConfirmResponse.builder()
         .roomId(reservation.getRoom().getId())
-        .accomodationName(reservation.getRoom().getAccomodation().getName())
+        .accomodationName(reservation.getRoom().getAccommodation().getName())
         .roomName(reservation.getRoom().getName())
         .checkIn(request.getCheckIn())
         .checkOut(request.getCheckOut())

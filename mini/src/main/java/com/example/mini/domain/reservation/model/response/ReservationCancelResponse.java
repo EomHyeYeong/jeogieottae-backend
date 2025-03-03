@@ -1,6 +1,6 @@
 package com.example.mini.domain.reservation.model.response;
 
-import com.example.mini.domain.accomodation.entity.RoomImage;
+import com.example.mini.domain.accommodation.entity.RoomImage;
 import com.example.mini.domain.reservation.entity.Reservation;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,8 +34,8 @@ public class ReservationCancelResponse {
 
     return ReservationCancelResponse.builder()
         .memberName(reservation.getMember().getName())
-        .accomodationName(reservation.getRoom().getAccomodation().getName())
-        .accomodationAddress(reservation.getRoom().getAccomodation().getAddress())
+        .accomodationName(reservation.getRoom().getAccommodation().getName())
+        .accomodationAddress(reservation.getRoom().getAccommodation().getAddress())
         .roomName(reservation.getRoom().getName())
         .roomPrice(reservation.getRoom().getPrice())
         .extraCharge(reservation.getExtraCharge())

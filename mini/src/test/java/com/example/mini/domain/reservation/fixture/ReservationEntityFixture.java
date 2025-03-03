@@ -1,7 +1,7 @@
 package com.example.mini.domain.reservation.fixture;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.entity.Room;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.entity.Room;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.reservation.entity.Reservation;
 import com.example.mini.domain.reservation.entity.enums.ReservationStatus;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class ReservationEntityFixture {
 
-	public static Reservation getReservation(Member member, Accomodation accomodation, Room room) {
+	public static Reservation getReservation(Member member, Accommodation accommodation, Room room) {
 		return Reservation.builder()
 			.id(1L)
 			.peopleNumber(2)
@@ -17,7 +17,7 @@ public class ReservationEntityFixture {
 			.totalPrice(100000)
 			.checkIn(LocalDateTime.now().minusDays(2))
 			.checkOut(LocalDateTime.now().minusDays(1))
-			.accomodation(accomodation)
+			.accommodation(accommodation)
 			.member(member)
 			.room(room)
 			.status(ReservationStatus.CONFIRMED)

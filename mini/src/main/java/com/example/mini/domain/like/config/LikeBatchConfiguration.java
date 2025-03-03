@@ -54,7 +54,7 @@ public class LikeBatchConfiguration {
 		return (contribution, chunkContext) -> {
 			List<Like> allLikes = likeRepository.findAll();
 			for (Like like : allLikes) {
-				cacheService.cacheLikeStatus(like.getMember().getId(), like.getAccomodation().getId(), like.isLiked());
+				cacheService.cacheLikeStatus(like.getMember().getId(), like.getAccommodation().getId(), like.isLiked());
 			}
 			return RepeatStatus.FINISHED;
 		};

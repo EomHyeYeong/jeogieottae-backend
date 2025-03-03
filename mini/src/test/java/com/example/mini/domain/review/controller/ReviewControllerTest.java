@@ -9,8 +9,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.repository.AccomodationRepository;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.repository.AccommodationRepository;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.repository.MemberRepository;
 import com.example.mini.domain.reservation.entity.Reservation;
@@ -53,7 +53,7 @@ class ReviewControllerTest { /*모두 통과*/
 	private MemberRepository memberRepository;
 
 	@MockBean
-	private AccomodationRepository accomodationRepository;
+	private AccommodationRepository accommodationRepository;
 
 	@MockBean
 	private ReservationRepository reservationRepository;
@@ -80,21 +80,21 @@ class ReviewControllerTest { /*모두 통과*/
 			.password("password")
 			.build();
 
-		Accomodation accomodation = Accomodation.builder()
+		Accommodation accommodation = Accommodation.builder()
 			.id(1L)
-			.name("Test Accomodation")
+			.name("Test Accommodation")
 			.build();
 
 		Reservation reservation = Reservation.builder()
 			.id(1L)
 			.member(member)
-			.accomodation(accomodation)
+			.accommodation(accommodation)
 			.checkOut(LocalDateTime.now().minusDays(1))
 			.status(ReservationStatus.CONFIRMED)
 			.build();
 
 		when(memberRepository.findById(any(Long.class))).thenReturn(Optional.of(member));
-		when(accomodationRepository.findById(any(Long.class))).thenReturn(Optional.of(accomodation));
+		when(accommodationRepository.findById(any(Long.class))).thenReturn(Optional.of(accommodation));
 		when(reservationRepository.findByMemberIdAndAccomodationIdAndStatus(any(Long.class), any(Long.class), eq(ReservationStatus.CONFIRMED))).thenReturn(Optional.of(reservation));
 
 		when(reviewService.addReview(any(Long.class), any(ReviewRequestDto.class))).thenReturn(response);

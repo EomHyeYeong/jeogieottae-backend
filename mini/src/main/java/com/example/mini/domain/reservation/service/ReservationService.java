@@ -1,6 +1,6 @@
 package com.example.mini.domain.reservation.service;
 
-import com.example.mini.domain.accomodation.entity.Room;
+import com.example.mini.domain.accommodation.entity.Room;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.reservation.entity.Reservation;
 import com.example.mini.domain.reservation.entity.enums.ReservationStatus;
@@ -10,7 +10,7 @@ import com.example.mini.domain.reservation.model.response.ReservationDetailRespo
 import com.example.mini.domain.reservation.model.response.ReservationResponse;
 import com.example.mini.domain.reservation.model.response.ReservationSummaryResponse;
 import com.example.mini.domain.reservation.repository.ReservationRepository;
-import com.example.mini.domain.accomodation.repository.RoomRepository;
+import com.example.mini.domain.accommodation.repository.RoomRepository;
 import com.example.mini.domain.member.repository.MemberRepository;
 import com.example.mini.global.api.exception.error.ReservationErrorCode;
 import com.example.mini.global.api.exception.GlobalException;
@@ -61,7 +61,7 @@ public class ReservationService {
         .totalPrice(room.getPrice() + additionalCharge)
         .checkIn(request.getCheckIn())
         .checkOut(request.getCheckOut())
-        .accomodation(room.getAccomodation())
+        .accommodation(room.getAccommodation())
         .member(member)
         .room(room)
         .status(ReservationStatus.CONFIRMED)

@@ -1,7 +1,7 @@
 package com.example.mini.domain.like.service;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.repository.AccomodationRepository;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.repository.AccommodationRepository;
 import com.example.mini.domain.like.entity.Like;
 import com.example.mini.domain.like.model.response.AccomodationResponse;
 import com.example.mini.domain.like.repository.LikeRepository;
@@ -26,7 +26,7 @@ public class LikeService {
 
   private final LikeRepository likeRepository;
   private final MemberRepository memberRepository;
-  private final AccomodationRepository accomodationRepository;
+  private final AccommodationRepository accommodationRepository;
   private final CacheService cacheService;
 
   @Transactional
@@ -34,14 +34,14 @@ public class LikeService {
     Member member = memberRepository.findById(memberId)
         .orElseThrow(() -> new GlobalException(LikeErrorCode.MEMBER_NOT_FOUND));
 
-    Accomodation accomodation = accomodationRepository.findById(accomodationId)
+    Accommodation accommodation = accommodationRepository.findById(accomodationId)
         .orElseThrow(() -> new GlobalException(LikeErrorCode.ACCOMODATION_NOT_FOUND));
 
     Boolean currentStatus = getLikeStatus(memberId, accomodationId);
     boolean newStatus = !currentStatus;
 
     Like like = likeRepository.findByMemberIdAndAccomodationId(memberId, accomodationId)
-        .orElseGet(() -> new Like(member, accomodation, newStatus));
+        .orElseGet(() -> new Like(member, accommodation, newStatus));
 
     like.setLiked(newStatus);
     likeRepository.save(like);
@@ -62,7 +62,7 @@ public class LikeService {
     Page<Like> likes = likeRepository.findByMemberIdAndIsLiked(memberId, true, PageRequest.of(page - 1, pageSize));
 
     List<AccomodationResponse> content = likes.stream()
-        .map(like -> AccomodationResponse.toDto(like.getAccomodation()))
+        .map(like -> AccomodationResponse.toDto(like.getAccommodation()))
         .toList();
     return new PagedResponse<>(likes.getTotalPages(), likes.getTotalElements(), content);
   }

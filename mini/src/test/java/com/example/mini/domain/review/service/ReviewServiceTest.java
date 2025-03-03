@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.entity.Room;
-import com.example.mini.domain.accomodation.fixture.AccomodationEntityFixture;
-import com.example.mini.domain.accomodation.repository.AccomodationRepository;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.entity.Room;
+import com.example.mini.domain.accommodation.fixture.AccommodationEntityFixture;
+import com.example.mini.domain.accommodation.repository.AccommodationRepository;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.fixture.MemberEntityFixture;
 import com.example.mini.domain.member.repository.MemberRepository;
@@ -46,7 +46,7 @@ class ReviewServiceTest { /*모두 성공*/
   private MemberRepository memberRepository;
 
   @Mock
-  private AccomodationRepository accomodationRepository;
+  private AccommodationRepository accommodationRepository;
 
   @Mock
   private ReservationRepository reservationRepository;
@@ -55,7 +55,7 @@ class ReviewServiceTest { /*모두 성공*/
   private ReviewService reviewService;
 
   private Member member;
-  private Accomodation accomodation;
+  private Accommodation accommodation;
   private Room room;
   private Reservation reservation;
 
@@ -64,12 +64,12 @@ class ReviewServiceTest { /*모두 성공*/
     MockitoAnnotations.openMocks(this);
 
     member = MemberEntityFixture.getMember();
-    accomodation = AccomodationEntityFixture.getAccomodation();
-    room = AccomodationEntityFixture.getRoom(accomodation);
-    reservation = ReservationEntityFixture.getReservation(member, accomodation, room);
+    accommodation = AccommodationEntityFixture.getAccomodation();
+    room = AccommodationEntityFixture.getRoom(accommodation);
+    reservation = ReservationEntityFixture.getReservation(member, accommodation, room);
 
     when(memberRepository.findById(1L)).thenReturn(java.util.Optional.of(member));
-    when(accomodationRepository.findById(1L)).thenReturn(java.util.Optional.of(accomodation));
+    when(accommodationRepository.findById(1L)).thenReturn(java.util.Optional.of(accommodation));
     when(reservationRepository.findByMemberIdAndAccomodationIdAndStatus(1L, 1L, ReservationStatus.CONFIRMED)).thenReturn(java.util.Optional.of(reservation));
   }
 
@@ -118,7 +118,7 @@ class ReviewServiceTest { /*모두 성공*/
         .star(5)
         .build();
 
-    when(accomodationRepository.findById(1L)).thenReturn(java.util.Optional.empty());
+    when(accommodationRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
     // When & Then
     GlobalException exception = assertThrows(GlobalException.class, () -> reviewService.addReview(1L, request));
@@ -195,7 +195,7 @@ class ReviewServiceTest { /*모두 성공*/
         .build();
 
     // Fixture를 사용하여 예약 객체 생성
-    Reservation originalReservation = ReservationEntityFixture.getReservation(member, accomodation, room);
+    Reservation originalReservation = ReservationEntityFixture.getReservation(member, accommodation, room);
 
     // 생성된 예약 객체를 빌더 패턴을 사용하여 복사하고, 체크아웃 시간을 수정
     Reservation reservation = Reservation.builder()
@@ -205,7 +205,7 @@ class ReviewServiceTest { /*모두 성공*/
         .totalPrice(originalReservation.getTotalPrice())
         .checkIn(originalReservation.getCheckIn())
         .checkOut(LocalDateTime.now().plusDays(1)) // 체크아웃 시간을 현재 시점보다 1일 후로 설정
-        .accomodation(originalReservation.getAccomodation())
+        .accommodation(originalReservation.getAccommodation())
         .member(originalReservation.getMember())
         .room(originalReservation.getRoom())
         .status(originalReservation.getStatus())
@@ -224,7 +224,7 @@ class ReviewServiceTest { /*모두 성공*/
     Long accomodationId = 1L;
     int page = 1;
 
-    when(accomodationRepository.findById(accomodationId)).thenReturn(Optional.empty());
+    when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.empty());
 
     // When & Then
     GlobalException exception = assertThrows(GlobalException.class, () -> reviewService.getReviewsByAccomodationId(accomodationId, page));
@@ -240,7 +240,7 @@ class ReviewServiceTest { /*모두 성공*/
         .comment("좋았습니다!")
         .star(5)
         .member(member)
-        .accomodation(accomodation)
+        .accommodation(accommodation)
         .reservation(reservation)
         .build();
 
@@ -248,14 +248,14 @@ class ReviewServiceTest { /*모두 성공*/
         .comment("별로였습니다!")
         .star(2)
         .member(member)
-        .accomodation(accomodation)
+        .accommodation(accommodation)
         .reservation(reservation)
         .build();
 
     Page<Review> reviewPage = new PageImpl<>(List.of(review1, review2), PageRequest.of(page - 1, 10), 2);
 
-    when(accomodationRepository.findById(accomodationId)).thenReturn(Optional.of(accomodation));
-    when(reviewRepository.findByAccomodationOrderByCreatedAtDesc(accomodation, PageRequest.of(page - 1, 10))).thenReturn(reviewPage);
+    when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.of(accommodation));
+    when(reviewRepository.findByAccomodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1, 10))).thenReturn(reviewPage);
 
     // When
     PagedResponse<AccomodationReviewResponseDto> response = reviewService.getReviewsByAccomodationId(accomodationId, page);
@@ -273,8 +273,8 @@ class ReviewServiceTest { /*모두 성공*/
     int page = 1;
     Page<Review> reviewPage = new PageImpl<>(List.of(), PageRequest.of(page - 1, 10), 0);
 
-    when(accomodationRepository.findById(accomodationId)).thenReturn(Optional.of(accomodation));
-    when(reviewRepository.findByAccomodationOrderByCreatedAtDesc(accomodation, PageRequest.of(page - 1, 10))).thenReturn(reviewPage);
+    when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.of(accommodation));
+    when(reviewRepository.findByAccomodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1, 10))).thenReturn(reviewPage);
 
     // When
     PagedResponse<AccomodationReviewResponseDto> response = reviewService.getReviewsByAccomodationId(accomodationId, page);

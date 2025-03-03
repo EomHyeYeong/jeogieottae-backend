@@ -1,6 +1,6 @@
 package com.example.mini.domain.cart.entity;
 
-import com.example.mini.domain.accomodation.entity.Room;
+import com.example.mini.domain.accommodation.entity.Room;
 import com.example.mini.domain.reservation.entity.Reservation;
 import com.example.mini.global.model.entity.BaseEntity;
 import com.example.mini.domain.member.entity.Member;
