@@ -8,7 +8,7 @@ import com.example.mini.domain.accomodation.model.response.AccomodationCardRespo
 import com.example.mini.domain.accomodation.model.response.AccomodationDetailsResponseDto;
 import com.example.mini.domain.accomodation.model.response.RoomResponseDto;
 import com.example.mini.domain.accomodation.repository.AccomodationRepository;
-import com.example.mini.domain.accomodation.repository.AccomodationSearchRepository;
+//import com.example.mini.domain.accomodation.repository.AccomodationSearchRepository;
 import com.example.mini.domain.accomodation.repository.RoomRepository;
 import com.example.mini.domain.accomodation.util.AccommodationUtils;
 import com.example.mini.domain.like.entity.Like;
@@ -43,7 +43,7 @@ import static com.example.mini.domain.accomodation.util.AccommodationUtils.check
 public class AccomodationService {
 
     private final AccomodationRepository accomodationRepository;
-    private final AccomodationSearchRepository accomodationSearchRepository;
+//    private final AccomodationSearchRepository accomodationSearchRepository;
     private final RoomRepository roomRepository;
     private final ReservationRepository reservationRepository;
     private final LikeRepository likeRepository;
@@ -71,17 +71,17 @@ public class AccomodationService {
      * @param page      조회할 페이지 번호
      * @return          입력된 옵션에 대한 숙소 검색결과 반환
      */
-    public PagedResponse<AccomodationCardResponseDto> getAllAccommodationsBySearch(
-            String keyword, String region, AccommodationRequestDto request, int page, Optional<Long> memberId
-    ) {
-        List<Long> keywordIList = AccommodationUtils.getIdByKeyword(keyword, accomodationSearchRepository);
-        List<Long> regionIdList = AccommodationUtils.getIdByRegion(region, accomodationRepository);
-        List<Long> commonIds = AccommodationUtils.getCommonId(keywordIList, regionIdList);
-
-        Page<Accomodation> accommodations = accomodationRepository.findByIdIn(commonIds, PageRequest.of(page-1, PageSize));
-        checkPageException(accommodations);
-        return accomodationConverter.convertToPagedResponse(accommodations, request.getCheckIn(), request.getCheckOut(), memberId,this);
-    }
+//    public PagedResponse<AccomodationCardResponseDto> getAllAccommodationsBySearch(
+//            String keyword, String region, AccommodationRequestDto request, int page, Optional<Long> memberId
+//    ) {
+//        List<Long> keywordIList = AccommodationUtils.getIdByKeyword(keyword, accomodationSearchRepository);
+//        List<Long> regionIdList = AccommodationUtils.getIdByRegion(region, accomodationRepository);
+//        List<Long> commonIds = AccommodationUtils.getCommonId(keywordIList, regionIdList);
+//
+//        Page<Accomodation> accommodations = accomodationRepository.findByIdIn(commonIds, PageRequest.of(page-1, PageSize));
+//        checkPageException(accommodations);
+//        return accomodationConverter.convertToPagedResponse(accommodations, request.getCheckIn(), request.getCheckOut(), memberId,this);
+//    }
 
     /**
      * 숙소 상세정보 조회

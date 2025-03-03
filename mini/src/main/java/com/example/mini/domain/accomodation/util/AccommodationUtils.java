@@ -3,7 +3,7 @@ package com.example.mini.domain.accomodation.util;
 import com.example.mini.domain.accomodation.entity.enums.AccomodationCategory;
 import com.example.mini.domain.accomodation.model.response.AccomodationSearchResponseDto;
 import com.example.mini.domain.accomodation.repository.AccomodationRepository;
-import com.example.mini.domain.accomodation.repository.AccomodationSearchRepository;
+//import com.example.mini.domain.accomodation.repository.AccomodationSearchRepository;
 import com.example.mini.domain.review.entity.Review;
 import com.example.mini.global.api.exception.GlobalException;
 import com.example.mini.global.api.exception.error.AccomodationErrorCode;
@@ -38,13 +38,13 @@ public class AccommodationUtils {
 	 * @param keyword   검색할 숙소명
 	 * @return          검색결과 id 리스트
 	 */
-	public static List<Long> getIdByKeyword(String keyword, AccomodationSearchRepository accomodationSearchRepository) {
-		if (keyword.isEmpty()) {
-			return new ArrayList<>();
-		}
-		List<AccomodationSearchResponseDto> searches = accomodationSearchRepository.findAccommodationsByName(keyword);
-		return searches.stream().map(AccomodationSearchResponseDto::getId).toList();
-	}
+//	public static List<Long> getIdByKeyword(String keyword, AccomodationSearchRepository accomodationSearchRepository) {
+//		if (keyword.isEmpty()) {
+//			return new ArrayList<>();
+//		}
+//		List<AccomodationSearchResponseDto> searches = accomodationSearchRepository.findAccommodationsByName(keyword);
+//		return searches.stream().map(AccomodationSearchResponseDto::getId).toList();
+//	}
 
 	/**
 	 * 입력된 지역명에 대한 숙소 id를 반환하는 메서드

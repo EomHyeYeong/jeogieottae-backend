@@ -40,18 +40,19 @@ public class AccomodationController {
         return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ACCOMMODATIONS_RETRIEVED, response));
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<ApiResponse<PagedResponse<AccomodationCardResponseDto>>> getAllAccommodationsBySearch(
-        @RequestParam(value = "accommodationName", defaultValue = "") String name,
-        @RequestParam(value = "region", defaultValue = "") String region,
-        @ModelAttribute AccommodationRequestDto request,
-        @RequestParam(value= "page", defaultValue = "1") int page,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
-        Optional<Long> memberId = convertToMemberId(userDetails);
-        PagedResponse<AccomodationCardResponseDto> response =
-                accomodationService.getAllAccommodationsBySearch(name, region, request, page, memberId);
-        return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ACCOMMODATION_SEARCH_SUCCESS, response));    }
+//    @GetMapping("/search")
+//    public ResponseEntity<ApiResponse<PagedResponse<AccomodationCardResponseDto>>> getAllAccommodationsBySearch(
+//        @RequestParam(value = "accommodationName", defaultValue = "") String name,
+//        @RequestParam(value = "region", defaultValue = "") String region,
+//        @ModelAttribute AccommodationRequestDto request,
+//        @RequestParam(value= "page", defaultValue = "1") int page,
+//        @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ) {
+//        Optional<Long> memberId = convertToMemberId(userDetails);
+//        PagedResponse<AccomodationCardResponseDto> response =
+//                accomodationService.getAllAccommodationsBySearch(name, region, request, page, memberId);
+//        return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ACCOMMODATION_SEARCH_SUCCESS, response));
+//    }
 
     @GetMapping("/{accomodationId}")
     public ResponseEntity<ApiResponse<AccomodationDetailsResponseDto>> getAccomodationDetails(

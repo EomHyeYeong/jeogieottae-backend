@@ -43,11 +43,9 @@ spring:
       host: localhost
       port: 6379
     elasticsearch:
-      port: 9200
-      host: ${ELASTICSEARCH_HOST}
+      host: localhost:9200
       username: elastic
       password: ${ELASTICSEARCH_PASSWORD}
-      fingerprint: ${ELASTICSEARCH_FINGERPRINT}
 
   security:
     oauth2:
