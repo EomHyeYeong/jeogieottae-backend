@@ -1,8 +1,8 @@
 package com.example.mini.global.redis;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.entity.Room;
-import com.example.mini.domain.accomodation.repository.RoomRepository;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.entity.Room;
+import com.example.mini.domain.accommodation.repository.RoomRepository;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.repository.MemberRepository;
 import com.example.mini.domain.reservation.model.request.ReservationRequest;
@@ -107,8 +107,8 @@ public class RedissonLockAspectTest {
         .build();
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(mockMember));
 
-    Accomodation accomodation = Accomodation.builder()
-        .name("test Accomodation")
+    Accommodation accommodation = Accommodation.builder()
+        .name("test Accommodation")
         .description("testtesttest")
         .postalCode("12345")
         .address("test address")
@@ -123,7 +123,7 @@ public class RedissonLockAspectTest {
         .price(10000)
         .maxGuests(5)
         .extraPersonCharge(5000)
-        .accomodation(accomodation)
+        .accommodation(accommodation)
         .build();
     when(roomRepository.findById(request.getRoomId())).thenReturn(Optional.of(room));
 

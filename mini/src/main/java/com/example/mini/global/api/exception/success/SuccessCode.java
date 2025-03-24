@@ -22,7 +22,7 @@ public enum SuccessCode {
     USER_INFO_RETRIEVED(HttpStatus.OK,  "사용자 정보 조회 성공"),
 
 
-    /*AccomodationController*/
+    /*AccommodationController*/
     ACCOMMODATIONS_RETRIEVED(HttpStatus.OK, "숙소 목록 조회 성공"),
     CATEGORY_RETRIEVED(HttpStatus.OK,  "카테고리 조회 성공"),
     ACCOMMODATION_DETAILS_RETRIEVED(HttpStatus.OK,  "숙소 상세 정보 조회 성공"),

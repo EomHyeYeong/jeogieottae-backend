@@ -26,7 +26,7 @@ public class ReservationResponse implements Serializable {
   public static ReservationResponse toDto(Reservation reservation) {
     return ReservationResponse.builder()
         .roomId(reservation.getRoom().getId())
-        .accomodationName(reservation.getRoom().getAccomodation().getName())
+        .accomodationName(reservation.getRoom().getAccommodation().getName())
         .roomName(reservation.getRoom().getName())
         .baseGuests(reservation.getRoom().getBaseGuests())
         .maxGuests(reservation.getRoom().getMaxGuests())

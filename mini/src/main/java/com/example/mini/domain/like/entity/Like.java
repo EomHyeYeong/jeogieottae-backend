@@ -1,7 +1,7 @@
 package com.example.mini.domain.like.entity;
 
     import com.example.mini.domain.member.entity.Member;
-    import com.example.mini.domain.accomodation.entity.Accomodation;
+    import com.example.mini.domain.accommodation.entity.Accommodation;
     import com.example.mini.global.model.entity.BaseEntity;
     import jakarta.persistence.*;
     import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ public class Like extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "accomodation_id", nullable = false)
-  private Accomodation accomodation;
+  private Accommodation accommodation;
 
   @Column(name = "is_liked", nullable = false)
   @Setter

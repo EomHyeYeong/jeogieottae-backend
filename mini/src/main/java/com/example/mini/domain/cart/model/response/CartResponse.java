@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.example.mini.domain.reservation.entity.Reservation;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.example.mini.domain.accomodation.entity.RoomImage;
+import com.example.mini.domain.accommodation.entity.RoomImage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,7 +38,7 @@ public class CartResponse {
     return CartResponse.builder()
         .reservationId(reservation.getId())
         .roomId(reservation.getRoom().getId())
-        .accommodationName(reservation.getRoom().getAccomodation().getName())
+        .accommodationName(reservation.getRoom().getAccommodation().getName())
         .roomName(reservation.getRoom().getName())
         .baseGuests(reservation.getRoom().getBaseGuests())
         .maxGuests(reservation.getRoom().getMaxGuests())

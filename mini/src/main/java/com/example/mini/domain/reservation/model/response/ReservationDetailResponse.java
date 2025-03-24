@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import com.example.mini.domain.accomodation.entity.RoomImage;
+import com.example.mini.domain.accommodation.entity.RoomImage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,15 +34,15 @@ public class ReservationDetailResponse {
 
     return ReservationDetailResponse.builder()
         .memberName(reservation.getMember().getName())
-        .accomodationName(reservation.getRoom().getAccomodation().getName())
+        .accomodationName(reservation.getRoom().getAccommodation().getName())
         .roomName(reservation.getRoom().getName())
         .roomPrice(reservation.getRoom().getPrice())
         .baseGuests(reservation.getRoom().getBaseGuests())
         .extraCharge(reservation.getExtraCharge())
         .checkIn(reservation.getCheckIn())
         .checkOut(reservation.getCheckOut())
-        .parkingAvailable(reservation.getRoom().getAccomodation().getParkingAvailable())
-        .cookingAvailable(reservation.getRoom().getAccomodation().getCookingAvailable())
+        .parkingAvailable(reservation.getRoom().getAccommodation().getParkingAvailable())
+        .cookingAvailable(reservation.getRoom().getAccommodation().getCookingAvailable())
         .roomImageUrls(roomImageUrls)
         .build();
   }

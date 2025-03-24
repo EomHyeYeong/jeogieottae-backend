@@ -1,8 +1,8 @@
 package com.example.mini.domain.like.model.response;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
+import com.example.mini.domain.accommodation.entity.Accommodation;
 
-import com.example.mini.domain.accomodation.entity.AccomodationImage;
+import com.example.mini.domain.accommodation.entity.AccommodationImage;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -21,16 +21,16 @@ public class AccomodationResponse {
     private String address;
     private List<String> accomodationImageUrls;
 
-    public static AccomodationResponse toDto(Accomodation accomodation) {
-        List<String> accomodationImageUrls = accomodation.getImages().stream()
-            .map(AccomodationImage::getImgUrl)
+    public static AccomodationResponse toDto(Accommodation accommodation) {
+        List<String> accomodationImageUrls = accommodation.getImages().stream()
+            .map(AccommodationImage::getImgUrl)
             .collect(Collectors.toList());
 
         return AccomodationResponse.builder()
-            .name(accomodation.getName())
-            .description(accomodation.getDescription())
-            .postalCode(accomodation.getPostalCode())
-            .address(accomodation.getAddress())
+            .name(accommodation.getName())
+            .description(accommodation.getDescription())
+            .postalCode(accommodation.getPostalCode())
+            .address(accommodation.getAddress())
             .accomodationImageUrls(accomodationImageUrls)
             .build();
     }

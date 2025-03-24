@@ -1,9 +1,7 @@
 package com.example.mini.domain.reservation.service;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.entity.Room;
-import com.example.mini.domain.cart.model.request.ConfirmCartItemRequest;
-import com.example.mini.domain.cart.model.response.CartConfirmResponse;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.entity.Room;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.reservation.entity.Reservation;
 import com.example.mini.domain.reservation.entity.enums.ReservationStatus;
@@ -12,7 +10,7 @@ import com.example.mini.domain.reservation.model.response.ReservationDetailRespo
 import com.example.mini.domain.reservation.model.response.ReservationResponse;
 import com.example.mini.domain.reservation.model.response.ReservationSummaryResponse;
 import com.example.mini.domain.reservation.repository.ReservationRepository;
-import com.example.mini.domain.accomodation.repository.RoomRepository;
+import com.example.mini.domain.accommodation.repository.RoomRepository;
 import com.example.mini.domain.member.repository.MemberRepository;
 import com.example.mini.global.api.exception.GlobalException;
 import com.example.mini.global.api.exception.error.ReservationErrorCode;
@@ -29,7 +27,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -57,7 +54,7 @@ class ReservationServiceTest {
 
   private Member member;
   private Room room;
-  private Accomodation accomodation;
+  private Accommodation accommodation;
   private Reservation reservation;
   private Reservation existingReservation;
   private final int pageSize = 10;
@@ -71,9 +68,9 @@ class ReservationServiceTest {
         .email("member@example.com")
         .build();
 
-    accomodation = Accomodation.builder()
+    accommodation = Accommodation.builder()
         .id(1L)
-        .name("Test Accomodation")
+        .name("Test Accommodation")
         .address("123 Test St, Test City")
         .parkingAvailable(true)
         .cookingAvailable(true)
@@ -87,13 +84,13 @@ class ReservationServiceTest {
         .baseGuests(2)
         .maxGuests(4)
         .extraPersonCharge(10)
-        .accomodation(accomodation)
+        .accommodation(accommodation)
         .images(new ArrayList<>())
         .build();
 
     reservation = Reservation.builder()
         .id(1L)
-        .accomodation(accomodation)
+        .accommodation(accommodation)
         .room(room)
         .member(member)
         .checkIn(LocalDateTime.of(2023, 6, 20, 14, 0))
@@ -136,7 +133,7 @@ class ReservationServiceTest {
     // Then
     assertNotNull(response);
     assertEquals(request.getRoomId(), response.getRoomId());
-    assertEquals(room.getAccomodation().getName(), response.getAccomodationName());
+    assertEquals(room.getAccommodation().getName(), response.getAccomodationName());
     assertEquals(room.getName(), response.getRoomName());
     assertEquals(room.getBaseGuests(), response.getBaseGuests());
     assertEquals(room.getMaxGuests(), response.getMaxGuests());
@@ -339,8 +336,8 @@ class ReservationServiceTest {
 
     ReservationSummaryResponse summary = response.getContent().get(0);
     assertEquals(reservation.getId(), summary.getReservationId());
-    assertEquals(reservation.getRoom().getAccomodation().getName(), summary.getAccomodationName());
-    assertEquals(reservation.getRoom().getAccomodation().getAddress(), summary.getAccomodationAddress());
+    assertEquals(reservation.getRoom().getAccommodation().getName(), summary.getAccomodationName());
+    assertEquals(reservation.getRoom().getAccommodation().getAddress(), summary.getAccomodationAddress());
     assertEquals(reservation.getRoom().getName(), summary.getRoomName());
     assertEquals(reservation.getTotalPrice(), summary.getTotalPrice());
     assertEquals(reservation.getPeopleNumber(), summary.getPeopleNumber());
@@ -376,15 +373,15 @@ class ReservationServiceTest {
     // Then
     assertNotNull(response);
     assertEquals(reservation.getMember().getName(), response.getMemberName());
-    assertEquals(reservation.getRoom().getAccomodation().getName(), response.getAccomodationName());
+    assertEquals(reservation.getRoom().getAccommodation().getName(), response.getAccomodationName());
     assertEquals(reservation.getRoom().getName(), response.getRoomName());
     assertEquals(reservation.getRoom().getPrice(), response.getRoomPrice());
     assertEquals(reservation.getRoom().getBaseGuests(), response.getBaseGuests());
     assertEquals(reservation.getExtraCharge(), response.getExtraCharge());
     assertEquals(reservation.getCheckIn(), response.getCheckIn());
     assertEquals(reservation.getCheckOut(), response.getCheckOut());
-    assertEquals(reservation.getRoom().getAccomodation().getParkingAvailable(), response.getParkingAvailable());
-    assertEquals(reservation.getRoom().getAccomodation().getCookingAvailable(), response.getCookingAvailable());
+    assertEquals(reservation.getRoom().getAccommodation().getParkingAvailable(), response.getParkingAvailable());
+    assertEquals(reservation.getRoom().getAccommodation().getCookingAvailable(), response.getCookingAvailable());
   }
 
   @Test

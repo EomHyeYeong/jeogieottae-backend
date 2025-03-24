@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import com.example.mini.domain.accomodation.entity.AccomodationImage;
+import com.example.mini.domain.accommodation.entity.AccommodationImage;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,14 +26,14 @@ public class ReservationSummaryResponse {
   private List<String> accomodationImageUrls; // 숙소 이미지
 
   public static ReservationSummaryResponse toDto(Reservation reservation) {
-    List<String> accomodationImageUrls = reservation.getRoom().getAccomodation().getImages().stream()
-        .map(AccomodationImage::getImgUrl)
+    List<String> accomodationImageUrls = reservation.getRoom().getAccommodation().getImages().stream()
+        .map(AccommodationImage::getImgUrl)
         .collect(Collectors.toList());
 
     return ReservationSummaryResponse.builder()
         .reservationId(reservation.getId())
-        .accomodationName(reservation.getRoom().getAccomodation().getName())
-        .accomodationAddress(reservation.getRoom().getAccomodation().getAddress())
+        .accomodationName(reservation.getRoom().getAccommodation().getName())
+        .accomodationAddress(reservation.getRoom().getAccommodation().getAddress())
         .roomName(reservation.getRoom().getName())
         .totalPrice(reservation.getTotalPrice())
         .peopleNumber(reservation.getPeopleNumber())

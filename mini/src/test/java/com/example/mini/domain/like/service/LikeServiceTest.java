@@ -1,7 +1,7 @@
 package com.example.mini.domain.like.service;
 
-import com.example.mini.domain.accomodation.entity.Accomodation;
-import com.example.mini.domain.accomodation.repository.AccomodationRepository;
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.repository.AccommodationRepository;
 import com.example.mini.domain.like.entity.Like;
 import com.example.mini.domain.like.model.response.AccomodationResponse;
 import com.example.mini.domain.like.repository.LikeRepository;
@@ -34,7 +34,7 @@ class LikeServiceTest {
   private MemberRepository memberRepository;
 
   @Mock
-  private AccomodationRepository accomodationRepository;
+  private AccommodationRepository accommodationRepository;
 
   @InjectMocks
   private LikeService likeService;
@@ -49,11 +49,11 @@ class LikeServiceTest {
     Long memberId = 1L;
     Long accomodationId = 1L;
     Member member = new Member();
-    Accomodation accomodation = new Accomodation();
-    Like like = new Like(member, accomodation, true);
+    Accommodation accommodation = new Accommodation();
+    Like like = new Like(member, accommodation, true);
 
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-    when(accomodationRepository.findById(accomodationId)).thenReturn(Optional.of(accomodation));
+    when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.of(accommodation));
     when(likeRepository.findByMemberIdAndAccomodationId(memberId, accomodationId))
         .thenReturn(Optional.of(like));
 
@@ -71,10 +71,10 @@ class LikeServiceTest {
     Long memberId = 1L;
     Long accomodationId = 1L;
     Member member = new Member();
-    Accomodation accomodation = new Accomodation();
+    Accommodation accommodation = new Accommodation();
 
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-    when(accomodationRepository.findById(accomodationId)).thenReturn(Optional.of(accomodation));
+    when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.of(accommodation));
     when(likeRepository.findByMemberIdAndAccomodationId(memberId, accomodationId))
         .thenReturn(Optional.empty());
 
@@ -107,7 +107,7 @@ class LikeServiceTest {
     Member member = new Member();
 
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-    when(accomodationRepository.findById(accomodationId)).thenReturn(Optional.empty());
+    when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.empty());
 
     // When & Then
     GlobalException exception = assertThrows(GlobalException.class, () ->
@@ -121,13 +121,13 @@ class LikeServiceTest {
     Long memberId = 1L;
     Pageable pageable = PageRequest.of(0, 10);
     Member member = new Member();
-    Accomodation accomodation = Accomodation.builder()
-        .name("Test Accomodation")
+    Accommodation accommodation = Accommodation.builder()
+        .name("Test Accommodation")
         .description("Test Description")
         .postalCode("12345")
         .address("Test Address")
         .build();
-    Like like = new Like(member, accomodation, true);
+    Like like = new Like(member, accommodation, true);
     Page<Like> likes = new PageImpl<>(Collections.singletonList(like));
 
     when(likeRepository.findByMemberIdAndIsLiked(memberId, true, pageable)).thenReturn(likes);
@@ -138,7 +138,7 @@ class LikeServiceTest {
     // Then
     assertEquals(1, result.getTotalElements());
     AccomodationResponse response = result.getContent().get(0);
-    assertEquals("Test Accomodation", response.getName());
+    assertEquals("Test Accommodation", response.getName());
     assertEquals("Test Description", response.getDescription());
     assertEquals("12345", response.getPostalCode());
     assertEquals("Test Address", response.getAddress());

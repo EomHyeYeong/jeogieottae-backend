@@ -1,12 +1,12 @@
 package com.example.mini.domain.like.repository;
 
+import com.example.mini.domain.accommodation.entity.Accommodation;
 import com.example.mini.domain.like.entity.Like;
 import com.example.mini.domain.member.entity.Member;
-import com.example.mini.domain.accomodation.entity.Accomodation;
 import com.example.mini.domain.member.repository.MemberRepository;
-import com.example.mini.domain.accomodation.repository.AccomodationRepository;
+import com.example.mini.domain.accommodation.repository.AccommodationRepository;
 import com.example.mini.domain.member.fixture.MemberEntityFixture;
-import com.example.mini.domain.accomodation.fixture.AccomodationEntityFixture;
+import com.example.mini.domain.accommodation.fixture.AccommodationEntityFixture;
 import com.example.mini.domain.like.fixture.LikeEntityFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,10 +35,10 @@ public class LikeRepositoryTest { /*모두 성공*/
 	private MemberRepository memberRepository;
 
 	@Autowired
-	private AccomodationRepository accomodationRepository;
+	private AccommodationRepository accommodationRepository;
 
 	private Member testMember;
-	private Accomodation testAccomodation;
+	private Accommodation testAccommodation;
 	private Like testLike;
 
 	@BeforeEach
@@ -46,25 +46,25 @@ public class LikeRepositoryTest { /*모두 성공*/
 		// 기존 데이터를 삭제하여 중복을 방지
 		likeRepository.deleteAll();
 		memberRepository.deleteAll();
-		accomodationRepository.deleteAll();
+		accommodationRepository.deleteAll();
 
 		// 엔티티를 저장하는 순서 보장
 		testMember = MemberEntityFixture.getMember();
 		testMember = memberRepository.saveAndFlush(testMember);
 
-		testAccomodation = AccomodationEntityFixture.getAccomodation();
-		testAccomodation = accomodationRepository.saveAndFlush(testAccomodation);
+		testAccommodation = AccommodationEntityFixture.getAccomodation();
+		testAccommodation = accommodationRepository.saveAndFlush(testAccommodation);
 
 		// 엔티티가 저장되었는지 확인
 		assertThat(memberRepository.findById(testMember.getId())).isPresent();
-		assertThat(accomodationRepository.findById(testAccomodation.getId())).isPresent();
+		assertThat(accommodationRepository.findById(testAccommodation.getId())).isPresent();
 
 		// 저장된 엔티티의 ID 출력
 		System.out.println("Member ID: " + testMember.getId());
-		System.out.println("Accomodation ID: " + testAccomodation.getId());
+		System.out.println("Accommodation ID: " + testAccommodation.getId());
 
 		// Like 엔티티 저장
-		testLike = LikeEntityFixture.getLike(testMember, testAccomodation);
+		testLike = LikeEntityFixture.getLike(testMember, testAccommodation);
 		testLike = likeRepository.saveAndFlush(testLike);
 
 		// Like 엔티티가 저장되었는지 확인
@@ -72,10 +72,10 @@ public class LikeRepositoryTest { /*모두 성공*/
 	}
 	@Test
 	void testFindByMemberIdAndAccomodationId() {
-		Optional<Like> foundLike = likeRepository.findByMemberIdAndAccomodationId(testMember.getId(), testAccomodation.getId());
+		Optional<Like> foundLike = likeRepository.findByMemberIdAndAccomodationId(testMember.getId(), testAccommodation.getId());
 		assertThat(foundLike).isPresent();
 		assertThat(foundLike.get().getMember().getId()).isEqualTo(testMember.getId());
-		assertThat(foundLike.get().getAccomodation().getId()).isEqualTo(testAccomodation.getId());
+		assertThat(foundLike.get().getAccommodation().getId()).isEqualTo(testAccommodation.getId());
 	}
 
 	@Test
@@ -84,6 +84,6 @@ public class LikeRepositoryTest { /*모두 성공*/
 		Page<Like> likePage = likeRepository.findByMemberIdAndIsLiked(testMember.getId(), true, pageable);
 		assertThat(likePage.getContent()).hasSize(1);
 		assertThat(likePage.getContent().get(0).getMember().getId()).isEqualTo(testMember.getId());
-		assertThat(likePage.getContent().get(0).getAccomodation().getId()).isEqualTo(testAccomodation.getId());
+		assertThat(likePage.getContent().get(0).getAccommodation().getId()).isEqualTo(testAccommodation.getId());
 	}
 }

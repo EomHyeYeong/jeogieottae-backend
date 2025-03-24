@@ -7,7 +7,6 @@ import com.example.mini.domain.reservation.model.request.ReservationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ public class EmailService {
     String to = member.getEmail();
     String subject = "예약 확정 되었습니다";
     String text = String.format("귀하의 %s에서 %s 객실 예약이 확정되었습니다.\n체크인: %s\n체크아웃: %s\n인원 수: %d명\n총 가격: %d원",
-        reservation.getRoom().getAccomodation().getName(),
+        reservation.getRoom().getAccommodation().getName(),
         reservation.getRoom().getName(),
         request.getCheckIn(),
         request.getCheckOut(),
@@ -46,7 +45,7 @@ public class EmailService {
     String to = member.getEmail();
     String subject = "예약 확정 되었습니다";
     String text = String.format("귀하의 %s에서 %s 객실 예약이 확정되었습니다.\n체크인: %s\n체크아웃: %s\n인원 수: %d명\n총 가격: %d원",
-        reservation.getRoom().getAccomodation().getName(),
+        reservation.getRoom().getAccommodation().getName(),
         reservation.getRoom().getName(),
         request.getCheckIn(),
         request.getCheckOut(),

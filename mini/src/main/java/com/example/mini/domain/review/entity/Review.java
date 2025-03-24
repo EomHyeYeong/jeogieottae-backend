@@ -1,7 +1,7 @@
 package com.example.mini.domain.review.entity;
 
+import com.example.mini.domain.accommodation.entity.Accommodation;
 import com.example.mini.domain.member.entity.Member;
-import com.example.mini.domain.accomodation.entity.Accomodation;
 import com.example.mini.domain.reservation.entity.Reservation;
 import com.example.mini.global.model.entity.BaseEntity;
 
@@ -39,7 +39,7 @@ public class Review extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "accomodation_id", nullable = false)
-  private Accomodation accomodation;
+  private Accommodation accommodation;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "reservation_id", nullable = false, unique = true)
