@@ -43,7 +43,7 @@ public class Room extends BaseEntity {
 	private Integer extraPersonCharge;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "accomodation_id")
+	@JoinColumn(name = "accommodation_id")
 	private Accommodation accommodation;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)

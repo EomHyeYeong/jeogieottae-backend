@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    List<Room> findByAccomodationId(Long accomodationId);
+    List<Room> findByAccommodationId(Long accommodationId);
 
-    @Query("SELECT MIN(r.price) FROM Room r WHERE r.accomodation.id = :accommodationId")
+    @Query("SELECT MIN(r.price) FROM Room r WHERE r.accommodation.id = :accommodationId")
     Integer findMinPriceByAccommodationId(@Param("accommodationId") Long accommodationId);
 }

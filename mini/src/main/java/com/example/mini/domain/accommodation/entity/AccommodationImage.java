@@ -24,11 +24,11 @@ public class AccommodationImage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@JsonProperty("accomodationImgUrl")
+	@JsonProperty("accommodationImgUrl")
 	private String imgUrl;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "accomodation_id", nullable = false)
+	@JoinColumn(name = "accommodation_id", nullable = false)
 	private Accommodation accommodation;
 
 }

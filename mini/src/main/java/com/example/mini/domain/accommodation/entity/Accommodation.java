@@ -57,16 +57,16 @@ public class Accommodation extends BaseEntity {
 	@Column(nullable = false)
 	private AccommodationCategory category;
 
-	@OneToMany(mappedBy = "accomodation")
+	@OneToMany(mappedBy = "accommodation")
 	private List<Room> rooms = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accomodation", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accommodation", cascade = CascadeType.ALL)
 	private List<Like> likes;
 
-	@OneToMany(mappedBy = "accomodation", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "accommodation", cascade = CascadeType.ALL)
 	private List<Review> reviews;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accomodation", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accommodation", cascade = CascadeType.ALL)
 	private List<AccommodationImage> images = new ArrayList<>();
 
 }

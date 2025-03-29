@@ -30,7 +30,7 @@ public class AccomodationConverter {
 			Page<Accommodation> accommodations, String checkIn, String checkOut, Optional<Long> memberId, AccommodationService accommodationService) {
 		List<AccommodationCardResponseDto> content = accommodations.getContent().stream().map(accommodation -> {
 			Integer minPrice = roomRepository.findMinPriceByAccommodationId(accommodation.getId());
-			boolean isAvailable = roomRepository.findByAccomodationId(accommodation.getId())
+			boolean isAvailable = roomRepository.findByAccommodationId(accommodation.getId())
 				.stream()
 				.anyMatch(room -> accommodationService.getReservationAvailable(checkIn, checkOut, room.getId()));
 			boolean isLiked = accommodationService.getIsLiked(memberId, accommodation.getId());

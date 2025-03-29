@@ -138,7 +138,7 @@ public class AccommodationService {
      * @return                  객실 정보가 담긴 객체 리스트 반환
      */
     private List<RoomResponseDto> getRoomResponseDto(Long accomodationId, String checkIn, String checkOut) {
-        return roomRepository.findByAccomodationId(accomodationId).stream()
+        return roomRepository.findByAccommodationId(accomodationId).stream()
             .map(room -> RoomResponseDto.toDto(room, getReservationAvailable(checkIn, checkOut, room.getId())))
             .toList();
     }
@@ -161,7 +161,7 @@ public class AccommodationService {
     public boolean getIsLiked(Optional<Long> memberId, Long accomodationId) {
         boolean isLiked = false;
         if (memberId.isPresent()) {
-            Optional<Like> optionalIsLiked = likeRepository.findByMemberIdAndAccomodationId(memberId.get(), accomodationId);
+            Optional<Like> optionalIsLiked = likeRepository.findByMemberIdAndAccommodationId(memberId.get(), accomodationId);
             isLiked = optionalIsLiked.map(Like::isLiked).orElse(false);
         }
 //        Optional<Like> optionalIsLiked = likeRepository.findByMemberIdAndAccomodationId(memberId, accomodationId);

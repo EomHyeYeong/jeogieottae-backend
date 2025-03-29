@@ -95,7 +95,7 @@ class ReviewControllerTest { /*모두 통과*/
 
 		when(memberRepository.findById(any(Long.class))).thenReturn(Optional.of(member));
 		when(accommodationRepository.findById(any(Long.class))).thenReturn(Optional.of(accommodation));
-		when(reservationRepository.findByMemberIdAndAccomodationIdAndStatus(any(Long.class), any(Long.class), eq(ReservationStatus.CONFIRMED))).thenReturn(Optional.of(reservation));
+		when(reservationRepository.findByMemberIdAndAccommodationIdAndStatus(any(Long.class), any(Long.class), eq(ReservationStatus.CONFIRMED))).thenReturn(Optional.of(reservation));
 
 		when(reviewService.addReview(any(Long.class), any(ReviewRequestDto.class))).thenReturn(response);
 
