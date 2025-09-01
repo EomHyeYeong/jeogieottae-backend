@@ -11,6 +11,7 @@ import com.example.mini.global.model.dto.PagedResponse;
 import com.example.mini.global.security.details.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,7 @@ public class AccommodationController {
     @Operation(summary = "숙소 목록 조회", description = "체크인, 체크아웃, 지역, 검색어로 숙소 목록을 조회합니다.")
     public ResponseEntity<ApiResponse<PagedResponse<AccommodationCardResponseDto>>> getAllAccommodations(
             @PageableDefault(size = 20) Pageable pageable,
-            @ModelAttribute AccommodationRequestDto request,
+            @ModelAttribute @Valid AccommodationRequestDto request,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         log.info("숙소 목록 조회: request={}", request);
@@ -49,7 +50,7 @@ public class AccommodationController {
     @Operation(summary = "숙소 상세정보 조회", description = "숙소 정보 및 객실 목록을 조회합니다.")
     public ResponseEntity<ApiResponse<AccommodationDetailsResponseDto>> getAccommodationDetails(
         @PathVariable Long accommodationId,
-        @ModelAttribute AccommodationRequestDto request,
+        @ModelAttribute @Valid AccommodationRequestDto request,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         log.info("숙소 상세정보 조회: request={}", request);
@@ -63,7 +64,7 @@ public class AccommodationController {
     public ResponseEntity<ApiResponse<RoomResponseDto>> getRoomDetail(
         @PathVariable Long accommodationId,
         @PathVariable Long roomId,
-        @ModelAttribute AccommodationRequestDto request
+        @ModelAttribute @Valid AccommodationRequestDto request
     ) {
         log.info("객실 상세정보 조회: request={}", request);
         RoomResponseDto response = accommodationService.getRoomDetail(accommodationId, roomId, request);

@@ -1,14 +1,16 @@
 package com.example.mini.domain.accommodation.model.request;
 
 import com.example.mini.domain.accommodation.entity.enums.AccommodationCategory;
+import com.example.mini.global.validation.CheckInOutValidation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
+@CheckInOutValidation
 public record AccommodationRequestDto(
-		@NotNull(message = "체크인 날짜를 선택해주세요.") // todo: 기간 검증 로직, 예외처리 추가
+		@NotNull(message = "체크인 날짜를 선택해주세요.")
 		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 		@Schema(description = "체크인 날짜", example = "2025-08-27T16:00:00")
 		LocalDateTime checkIn,
