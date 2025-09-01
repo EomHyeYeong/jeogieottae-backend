@@ -1,5 +1,6 @@
 package com.example.mini.domain.accommodation.model.request;
 
+import com.example.mini.domain.accommodation.entity.enums.AccommodationCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,7 +19,7 @@ public record AccommodationRequestDto(
 		LocalDateTime checkOut,
 
 		@Schema(description = "지역", example = "서울")
-		String region,
+		AccommodationCategory region,
 
 		@Schema(description = "검색 키워드", example = "펜션")
 		String keyword

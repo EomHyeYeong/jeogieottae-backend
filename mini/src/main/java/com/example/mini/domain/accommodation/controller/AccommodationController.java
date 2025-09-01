@@ -41,7 +41,7 @@ public class AccommodationController {
     ) {
         log.info("숙소 목록 조회: request={}", request);
         Long memberId = (userDetails!=null) ? userDetails.getMemberId() : null;
-        PagedResponse<AccommodationCardResponseDto> response = accommodationService.getAllAccommodations(pageable, request, memberId);
+        PagedResponse<AccommodationCardResponseDto> response = accommodationService.getAccommodations(pageable, request, memberId);
         return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ACCOMMODATIONS_RETRIEVED, response));
     }
 

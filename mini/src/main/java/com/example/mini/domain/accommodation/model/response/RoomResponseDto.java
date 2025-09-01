@@ -24,7 +24,7 @@ public class RoomResponseDto {
     boolean reservationAvailable;
     private List<String> roomImageUrls;
 
-    public static RoomResponseDto toDto(Room room, boolean isAvailable) {
+    public static RoomResponseDto toDto(Room room, boolean reservationAvailable) {
         List<String> roomImageUrls = room.getImages().stream()
             .map(RoomImage::getImgUrl)
             .collect(Collectors.toList());
@@ -36,7 +36,7 @@ public class RoomResponseDto {
             .price(room.getPrice())
             .maxGuests(room.getMaxGuests())
             .extraPersonCharge(room.getExtraPersonCharge())
-            .reservationAvailable(isAvailable)
+            .reservationAvailable(reservationAvailable)
             .roomImageUrls(roomImageUrls)
             .build();
     }
