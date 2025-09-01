@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class AccomodationConverter {
 	 * @return                  숙소 정보 목록을 포함한 응답 객체
 	 */
 	public PagedResponse<AccommodationCardResponseDto> convertToPagedResponse(
-			Page<Accommodation> accommodations, String checkIn, String checkOut, Optional<Long> memberId, AccommodationService accommodationService) {
+			Page<Accommodation> accommodations, LocalDateTime checkIn, LocalDateTime checkOut, Long memberId, AccommodationService accommodationService) {
 		List<AccommodationCardResponseDto> content = accommodations.getContent().stream().map(accommodation -> {
 			Integer minPrice = roomRepository.findMinPriceByAccommodationId(accommodation.getId());
 			boolean isAvailable = roomRepository.findByAccommodationId(accommodation.getId())
