@@ -8,14 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
-
-    List<Accommodation> findByCategory(AccommodationCategory category);
-
-    Page<Accommodation> findByIdIn(List<Long> idList, Pageable pageable);
 
     @Query("""
                 SELECT a FROM Accommodation a

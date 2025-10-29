@@ -42,12 +42,12 @@ public class AccommodationRepositoryTest { /*모두 통과*/
 		accommodationRepository.saveAll(Arrays.asList(testAccommodation1, testAccommodation2));
 	}
 
-	@Test
-	void testFindByCategoryName() {
-		List<Accommodation> seoulAccommodations = accommodationRepository.findByCategory(AccommodationCategory.SEOUL);
-		assertThat(seoulAccommodations).contains(testAccommodation1);
-		assertThat(seoulAccommodations).doesNotContain(testAccommodation2);
-	}
+//	@Test
+//	void testFindByCategoryName() {
+//		List<Accommodation> seoulAccommodations = accommodationRepository.findByCategory(AccommodationCategory.SEOUL);
+//		assertThat(seoulAccommodations).contains(testAccommodation1);
+//		assertThat(seoulAccommodations).doesNotContain(testAccommodation2);
+//	}
 
 	@Test
 	void testFindAll() {
@@ -56,12 +56,12 @@ public class AccommodationRepositoryTest { /*모두 통과*/
 		assertThat(accomodationPage.getContent()).hasSize(2);
 	}
 
-	@Test
-	void testFindByIdList() {
-		List<Long> idList = Arrays.asList(testAccommodation1.getId(), testAccommodation2.getId());
-		Pageable pageable = PageRequest.of(0, 10);
-		Page<Accommodation> accomodationPage = accommodationRepository.findByIdIn(idList, pageable);
-		List<Long> returnedIds = accomodationPage.getContent().stream().map(Accommodation::getId).collect(Collectors.toList());
-		assertThat(returnedIds).containsExactlyInAnyOrderElementsOf(idList);
-	}
+//	@Test
+//	void testFindByIdList() {
+//		List<Long> idList = Arrays.asList(testAccommodation1.getId(), testAccommodation2.getId());
+//		Pageable pageable = PageRequest.of(0, 10);
+//		Page<Accommodation> accomodationPage = accommodationRepository.findByIdIn(idList, pageable);
+//		List<Long> returnedIds = accomodationPage.getContent().stream().map(Accommodation::getId).collect(Collectors.toList());
+//		assertThat(returnedIds).containsExactlyInAnyOrderElementsOf(idList);
+//	}
 }

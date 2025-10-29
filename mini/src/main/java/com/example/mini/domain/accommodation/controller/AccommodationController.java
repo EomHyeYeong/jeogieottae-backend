@@ -55,7 +55,7 @@ public class AccommodationController {
     ) {
         log.info("숙소 상세정보 조회: request={}", request);
         Long memberId = (userDetails!=null) ? userDetails.getMemberId() : null;
-        AccommodationDetailsResponseDto response = accommodationService.getAccommodationDetails(accommodationId, request, memberId);
+        AccommodationDetailsResponseDto response = accommodationService.getAccommodationDetail(accommodationId, request, memberId);
         return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ACCOMMODATION_DETAILS_RETRIEVED, response));
     }
 
