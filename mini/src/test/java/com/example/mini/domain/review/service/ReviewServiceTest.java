@@ -70,7 +70,7 @@ class ReviewServiceTest { /*모두 성공*/
 
     when(memberRepository.findById(1L)).thenReturn(java.util.Optional.of(member));
     when(accommodationRepository.findById(1L)).thenReturn(java.util.Optional.of(accommodation));
-    when(reservationRepository.findByMemberIdAndAccomodationIdAndStatus(1L, 1L, ReservationStatus.CONFIRMED)).thenReturn(java.util.Optional.of(reservation));
+    when(reservationRepository.findByMemberIdAndAccommodationIdAndStatus(1L, 1L, ReservationStatus.CONFIRMED)).thenReturn(java.util.Optional.of(reservation));
   }
 
   @Test
@@ -134,7 +134,7 @@ class ReviewServiceTest { /*모두 성공*/
         .star(5)
         .build();
 
-    when(reservationRepository.findByMemberIdAndAccomodationIdAndStatus(1L, 1L, ReservationStatus.CONFIRMED)).thenReturn(java.util.Optional.empty());
+    when(reservationRepository.findByMemberIdAndAccommodationIdAndStatus(1L, 1L, ReservationStatus.CONFIRMED)).thenReturn(java.util.Optional.empty());
 
     // When & Then
     GlobalException exception = assertThrows(GlobalException.class, () -> reviewService.addReview(1L, request));
@@ -211,7 +211,7 @@ class ReviewServiceTest { /*모두 성공*/
         .status(originalReservation.getStatus())
         .build();
 
-    when(reservationRepository.findByMemberIdAndAccomodationIdAndStatus(1L, 1L, ReservationStatus.CONFIRMED)).thenReturn(java.util.Optional.of(reservation));
+    when(reservationRepository.findByMemberIdAndAccommodationIdAndStatus(1L, 1L, ReservationStatus.CONFIRMED)).thenReturn(java.util.Optional.of(reservation));
 
     // When & Then
     GlobalException exception = assertThrows(GlobalException.class, () -> reviewService.addReview(1L, request));
@@ -255,7 +255,7 @@ class ReviewServiceTest { /*모두 성공*/
     Page<Review> reviewPage = new PageImpl<>(List.of(review1, review2), PageRequest.of(page - 1, 10), 2);
 
     when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.of(accommodation));
-    when(reviewRepository.findByAccomodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1, 10))).thenReturn(reviewPage);
+    when(reviewRepository.findByAccommodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1, 10))).thenReturn(reviewPage);
 
     // When
     PagedResponse<AccomodationReviewResponseDto> response = reviewService.getReviewsByAccomodationId(accomodationId, page);
@@ -274,7 +274,7 @@ class ReviewServiceTest { /*모두 성공*/
     Page<Review> reviewPage = new PageImpl<>(List.of(), PageRequest.of(page - 1, 10), 0);
 
     when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.of(accommodation));
-    when(reviewRepository.findByAccomodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1, 10))).thenReturn(reviewPage);
+    when(reviewRepository.findByAccommodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1, 10))).thenReturn(reviewPage);
 
     // When
     PagedResponse<AccomodationReviewResponseDto> response = reviewService.getReviewsByAccomodationId(accomodationId, page);

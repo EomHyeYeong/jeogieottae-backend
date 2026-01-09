@@ -102,7 +102,7 @@ public class ReservationRepositoryTest { /*수정 필요*/
 
 	@Test
 	void testFindByMemberIdAndAccomodationIdAndStatus() {
-		Optional<Reservation> foundReservation = reservationRepository.findByMemberIdAndAccomodationIdAndStatus(testMember.getId(), testAccommodation.getId(), ReservationStatus.CONFIRMED);
+		Optional<Reservation> foundReservation = reservationRepository.findByMemberIdAndAccommodationIdAndStatus(testMember.getId(), testAccommodation.getId(), ReservationStatus.CONFIRMED);
 		assertThat(foundReservation).isPresent();
 		assertThat(foundReservation.get().getId()).isEqualTo(testReservation.getId());
 	}

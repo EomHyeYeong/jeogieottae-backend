@@ -72,7 +72,7 @@ public class LikeRepositoryTest { /*모두 성공*/
 	}
 	@Test
 	void testFindByMemberIdAndAccomodationId() {
-		Optional<Like> foundLike = likeRepository.findByMemberIdAndAccomodationId(testMember.getId(), testAccommodation.getId());
+		Optional<Like> foundLike = likeRepository.findByMemberIdAndAccommodationId(testMember.getId(), testAccommodation.getId());
 		assertThat(foundLike).isPresent();
 		assertThat(foundLike.get().getMember().getId()).isEqualTo(testMember.getId());
 		assertThat(foundLike.get().getAccommodation().getId()).isEqualTo(testAccommodation.getId());

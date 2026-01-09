@@ -40,7 +40,7 @@ public class LikeService {
     Boolean currentStatus = getLikeStatus(memberId, accomodationId);
     boolean newStatus = !currentStatus;
 
-    Like like = likeRepository.findByMemberIdAndAccomodationId(memberId, accomodationId)
+    Like like = likeRepository.findByMemberIdAndAccommodationId(memberId, accomodationId)
         .orElseGet(() -> new Like(member, accommodation, newStatus));
 
     like.setLiked(newStatus);
@@ -75,7 +75,7 @@ public class LikeService {
     }
 
     // 캐시에 없는 경우 DB에서 조회
-    Like like = likeRepository.findByMemberIdAndAccomodationId(memberId, accomodationId).orElse(null);
+    Like like = likeRepository.findByMemberIdAndAccommodationId(memberId, accomodationId).orElse(null);
     if (like == null) {
       return false; // 좋아요가 없는 경우 false 반환
     }

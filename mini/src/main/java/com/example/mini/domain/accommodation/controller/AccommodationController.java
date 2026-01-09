@@ -1,6 +1,5 @@
 package com.example.mini.domain.accommodation.controller;
 
-import com.example.mini.domain.accommodation.converter.AccomodationConverter;
 import com.example.mini.domain.accommodation.model.request.AccommodationRequestDto;
 import com.example.mini.domain.accommodation.model.response.AccommodationCardResponseDto;
 import com.example.mini.domain.accommodation.model.response.AccommodationDetailsResponseDto;
@@ -10,69 +9,65 @@ import com.example.mini.global.api.ApiResponse;
 import com.example.mini.global.api.exception.success.SuccessCode;
 import com.example.mini.global.model.dto.PagedResponse;
 import com.example.mini.global.security.details.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/accommodations")
+@Tag(name = "숙소 조회", description = "숙소 목록, 단건 조회 API")
+@Slf4j
 public class AccommodationController {
 
     private final AccommodationService accommodationService;
 
-    @GetMapping("")
+    @GetMapping
+    @Operation(summary = "숙소 목록 조회", description = "체크인, 체크아웃, 지역, 검색어로 숙소 목록을 조회합니다.")
     public ResponseEntity<ApiResponse<PagedResponse<AccommodationCardResponseDto>>> getAllAccommodations(
-        @RequestParam(value="page", defaultValue = "1") int page,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
+            @PageableDefault(size = 20) Pageable pageable,
+            @ModelAttribute @Valid AccommodationRequestDto request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        Optional<Long> memberId = AccomodationConverter.convertToMemberId(userDetails);
-        PagedResponse<AccommodationCardResponseDto> response = accommodationService.getAllAccommodations(page, memberId);
+        log.info("숙소 목록 조회: request={}", request);
+        Long memberId = (userDetails!=null) ? userDetails.getMemberId() : null;
+        PagedResponse<AccommodationCardResponseDto> response = accommodationService.getAccommodations(pageable, request, memberId);
         return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ACCOMMODATIONS_RETRIEVED, response));
     }
 
-//    @GetMapping("/search")
-//    public ResponseEntity<ApiResponse<PagedResponse<AccommodationCardResponseDto>>> getAllAccommodationsBySearch(
-//        @RequestParam(value = "accommodationName", defaultValue = "") String name,
-//        @RequestParam(value = "region", defaultValue = "") String region,
-//        @ModelAttribute AccommodationRequestDto request,
-//        @RequestParam(value= "page", defaultValue = "1") int page,
-//        @AuthenticationPrincipal UserDetailsImpl userDetails
-//    ) {
-//        Optional<Long> memberId = convertToMemberId(userDetails);
-//        PagedResponse<AccommodationCardResponseDto> response =
-//                accomodationService.getAllAccommodationsBySearch(name, region, request, page, memberId);
-//        return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ACCOMMODATION_SEARCH_SUCCESS, response));
-//    }
-
-    @GetMapping("/{accomodationId}")
-    public ResponseEntity<ApiResponse<AccommodationDetailsResponseDto>> getAccomodationDetails(
-        @PathVariable Long accomodationId,
-        @ModelAttribute AccommodationRequestDto request,
+    @GetMapping("/{accommodationId}")
+    @Operation(summary = "숙소 상세정보 조회", description = "숙소 정보 및 객실 목록을 조회합니다.")
+    public ResponseEntity<ApiResponse<AccommodationDetailsResponseDto>> getAccommodationDetails(
+        @PathVariable Long accommodationId,
+        @ModelAttribute @Valid AccommodationRequestDto request,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        Optional<Long> memberId = AccomodationConverter.convertToMemberId(userDetails);
-        AccommodationDetailsResponseDto response = accommodationService
-            .getAccomodationDetails(accomodationId, request.getCheckIn(), request.getCheckOut(), memberId);
+        log.info("숙소 상세정보 조회: request={}", request);
+        Long memberId = (userDetails!=null) ? userDetails.getMemberId() : null;
+        AccommodationDetailsResponseDto response = accommodationService.getAccommodationDetail(accommodationId, request, memberId);
         return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ACCOMMODATION_DETAILS_RETRIEVED, response));
     }
 
-    @GetMapping("/{accomodationId}/room/{roomId}")
+    @GetMapping("/{accommodationId}/room/{roomId}")
+    @Operation(summary = "객실 상세정보 조회", description = "객실 상세정보를 조회합니다.")
     public ResponseEntity<ApiResponse<RoomResponseDto>> getRoomDetail(
-        @PathVariable Long accomodationId,
+        @PathVariable Long accommodationId,
         @PathVariable Long roomId,
-        @ModelAttribute AccommodationRequestDto request
+        @ModelAttribute @Valid AccommodationRequestDto request
     ) {
-        RoomResponseDto response = accommodationService
-            .getRoomDetail(accomodationId, roomId, request.getCheckIn(), request.getCheckOut());
+        log.info("객실 상세정보 조회: request={}", request);
+        RoomResponseDto response = accommodationService.getRoomDetail(accommodationId, roomId, request);
         return ResponseEntity.ok(ApiResponse.SUCCESS(SuccessCode.ROOM_DETAILS_RETRIEVED, response));
     }
 

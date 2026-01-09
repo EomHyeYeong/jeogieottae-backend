@@ -13,5 +13,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
   @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Review r WHERE r.reservation = :reservation")
   boolean existsByReservation(Reservation reservation);
 
-  Page<Review> findByAccomodationOrderByCreatedAtDesc(Accommodation accommodation, Pageable pageable);
+  Page<Review> findByAccommodationOrderByCreatedAtDesc(Accommodation accommodation, Pageable pageable);
 }

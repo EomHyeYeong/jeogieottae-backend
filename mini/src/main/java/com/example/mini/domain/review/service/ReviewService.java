@@ -51,7 +51,7 @@ public class ReviewService {
         Accommodation accommodation = accommodationRepository.findById(request.getAccomodationId())
             .orElseThrow(() -> new GlobalException(ReviewErrorCode.ACCOMODATION_NOT_FOUND));
 
-        Reservation confirmedReservation = reservationRepository.findByMemberIdAndAccomodationIdAndStatus(
+        Reservation confirmedReservation = reservationRepository.findByMemberIdAndAccommodationIdAndStatus(
                 memberId, request.getAccomodationId(), ReservationStatus.CONFIRMED)
             .orElseThrow(() -> new GlobalException(ReviewErrorCode.RESERVATION_NOT_FOUND));
 
@@ -82,7 +82,7 @@ public class ReviewService {
             .orElseThrow(() -> new GlobalException(ReviewErrorCode.ACCOMODATION_NOT_FOUND));
 
         int pageSize = 10;
-        Page<Review> reviewPage = reviewRepository.findByAccomodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1,
+        Page<Review> reviewPage = reviewRepository.findByAccommodationOrderByCreatedAtDesc(accommodation, PageRequest.of(page - 1,
             pageSize));
         List<AccomodationReviewResponseDto> content = reviewPage.stream()
             .map(AccomodationReviewResponseDto::toDto)

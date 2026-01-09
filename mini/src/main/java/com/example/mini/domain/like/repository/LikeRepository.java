@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
-  Optional<Like> findByMemberIdAndAccomodationId(Long memberId, Long accomodationId);
+  Optional<Like> findByMemberIdAndAccommodationId(Long memberId, Long accommodationId);
 
   Page<Like> findByMemberIdAndIsLiked(Long memberId, boolean isLiked, Pageable pageable);
 }

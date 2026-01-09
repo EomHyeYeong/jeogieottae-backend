@@ -1,5 +1,6 @@
 package com.example.mini.domain.accommodation.entity;
 
+import com.example.mini.domain.reservation.entity.Reservation;
 import com.example.mini.global.model.entity.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,8 +15,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.BatchSize;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -43,10 +45,25 @@ public class Room extends BaseEntity {
 	private Integer extraPersonCharge;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "accomodation_id")
+	@JoinColumn(name = "accommodation_id")
 	private Accommodation accommodation;
 
+	@BatchSize(size = 1000)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
-	private List<RoomImage> images = new ArrayList<>();
+	private List<RoomImage> images;
+
+	@BatchSize(size = 1000)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
+	private List<Reservation> reservations;
+
+	// room 예약 가능 여부 판단
+	public boolean isReservationAvailable(LocalDateTime checkIn, LocalDateTime checkOut) {
+		for (Reservation reservation : reservations) {
+			if (checkIn.isBefore(reservation.getCheckOut()) && checkOut.isAfter(reservation.getCheckIn())) {
+				return false; // 기간이 겹침 → 예약 불가
+			}
+		}
+		return true;
+	}
 
 }

@@ -54,7 +54,7 @@ class LikeServiceTest {
 
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
     when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.of(accommodation));
-    when(likeRepository.findByMemberIdAndAccomodationId(memberId, accomodationId))
+    when(likeRepository.findByMemberIdAndAccommodationId(memberId, accomodationId))
         .thenReturn(Optional.of(like));
 
     // When
@@ -75,7 +75,7 @@ class LikeServiceTest {
 
     when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
     when(accommodationRepository.findById(accomodationId)).thenReturn(Optional.of(accommodation));
-    when(likeRepository.findByMemberIdAndAccomodationId(memberId, accomodationId))
+    when(likeRepository.findByMemberIdAndAccommodationId(memberId, accomodationId))
         .thenReturn(Optional.empty());
 
     // When
