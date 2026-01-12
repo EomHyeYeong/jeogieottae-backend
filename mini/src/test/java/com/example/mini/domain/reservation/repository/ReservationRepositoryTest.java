@@ -65,10 +65,10 @@ public class ReservationRepositoryTest { /*수정 필요*/
 		testMember = MemberEntityFixture.getDefaultMember();
 		memberRepository.save(testMember);
 
-		testAccommodation = AccommodationEntityFixture.getAccomodationByCategory(AccommodationCategory.SEOUL);
+		testAccommodation = AccommodationEntityFixture.getAccommodationByCategory(AccommodationCategory.SEOUL);
 		accommodationRepository.save(testAccommodation);
 
-		testRoom = RoomEntityFixture.getDefaultRoom(testAccommodation);
+		testRoom = RoomEntityFixture.getDefaultRoom();
 		roomRepository.save(testRoom);
 
 		testReservation = ReservationEntityFixture.getReservation(testMember, testAccommodation, testRoom);

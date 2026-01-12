@@ -52,7 +52,7 @@ public class LikeRepositoryTest { /*모두 성공*/
 		testMember = MemberEntityFixture.getMember();
 		testMember = memberRepository.saveAndFlush(testMember);
 
-		testAccommodation = AccommodationEntityFixture.getAccomodation();
+		testAccommodation = AccommodationEntityFixture.getDefaultAccommodation();
 		testAccommodation = accommodationRepository.saveAndFlush(testAccommodation);
 
 		// 엔티티가 저장되었는지 확인
