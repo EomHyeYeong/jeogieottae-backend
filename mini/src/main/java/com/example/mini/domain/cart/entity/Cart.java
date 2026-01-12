@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,10 +36,10 @@ public class Cart extends BaseEntity {
 	private Member member;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@Setter
+	@Setter @Builder.Default
 	private List<Room> roomList = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@Setter
+	@Setter @Builder.Default
 	private List<Reservation> reservationList = new ArrayList<>();
 }
