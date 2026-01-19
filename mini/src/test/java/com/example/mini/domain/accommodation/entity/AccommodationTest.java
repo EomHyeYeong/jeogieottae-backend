@@ -93,8 +93,8 @@ class AccommodationTest {
         LocalDateTime checkOut = checkIn.plusDays(1);
 
         List<Room> rooms = List.of(
-                RoomEntityFixture.roomReservableFor(1L, checkIn, checkOut),
-                RoomEntityFixture.roomNotReservableFor(2L, checkIn, checkOut)
+                RoomEntityFixture.roomReservableFor(checkIn, checkOut),
+                RoomEntityFixture.roomNotReservableFor(checkIn, checkOut)
         );
 
         Accommodation accommodation = AccommodationEntityFixture.withRooms(rooms);
@@ -114,8 +114,8 @@ class AccommodationTest {
         LocalDateTime checkOut = checkIn.plusDays(1);
 
         List<Room> rooms = List.of(
-                RoomEntityFixture.roomNotReservableFor(1L, checkIn, checkOut),
-                RoomEntityFixture.roomNotReservableFor(2L, checkIn, checkOut)
+                RoomEntityFixture.roomNotReservableFor(checkIn, checkOut),
+                RoomEntityFixture.roomNotReservableFor(checkIn, checkOut)
         );
 
         Accommodation accommodation = AccommodationEntityFixture.withRooms(rooms);

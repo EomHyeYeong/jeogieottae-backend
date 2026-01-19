@@ -65,8 +65,8 @@ class ReviewServiceTest { /*모두 성공*/
     MockitoAnnotations.openMocks(this);
 
     member = MemberEntityFixture.getMember();
-    accommodation = AccommodationEntityFixture.getDefaultAccommodation();
-    room = RoomEntityFixture.getDefaultRoom();
+    accommodation = AccommodationEntityFixture.baseAccommodation();
+    room = RoomEntityFixture.baseRoom(1L);
     reservation = ReservationEntityFixture.getReservation(member, accommodation, room);
 
     when(memberRepository.findById(1L)).thenReturn(java.util.Optional.of(member));
