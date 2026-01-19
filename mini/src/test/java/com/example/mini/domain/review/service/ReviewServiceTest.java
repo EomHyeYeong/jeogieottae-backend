@@ -9,6 +9,7 @@ import static org.mockito.Mockito.*;
 import com.example.mini.domain.accommodation.entity.Accommodation;
 import com.example.mini.domain.accommodation.entity.Room;
 import com.example.mini.domain.accommodation.fixture.AccommodationEntityFixture;
+import com.example.mini.domain.accommodation.fixture.RoomEntityFixture;
 import com.example.mini.domain.accommodation.repository.AccommodationRepository;
 import com.example.mini.domain.member.entity.Member;
 import com.example.mini.domain.member.fixture.MemberEntityFixture;
@@ -64,8 +65,8 @@ class ReviewServiceTest { /*모두 성공*/
     MockitoAnnotations.openMocks(this);
 
     member = MemberEntityFixture.getMember();
-    accommodation = AccommodationEntityFixture.getAccomodation();
-    room = AccommodationEntityFixture.getRoom(accommodation);
+    accommodation = AccommodationEntityFixture.baseAccommodation();
+    room = RoomEntityFixture.baseRoom(1L);
     reservation = ReservationEntityFixture.getReservation(member, accommodation, room);
 
     when(memberRepository.findById(1L)).thenReturn(java.util.Optional.of(member));

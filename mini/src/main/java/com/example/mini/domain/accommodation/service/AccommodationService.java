@@ -61,8 +61,6 @@ public class AccommodationService {
     public RoomResponseDto getRoomDetail(Long accommodationId, Long roomId, AccommodationRequestDto request) {
         Room room = roomRepository.findById(roomId)
             .orElseThrow(() -> new GlobalException(AccomodationErrorCode.RESOURCE_NOT_FOUND));
-        if(!accommodationId.equals(room.getAccommodation().getId()))
-            throw new GlobalException(AccomodationErrorCode.INVALID_ROOM_REQUEST);
         boolean reservationAvailable = room.isReservationAvailable(request.checkIn(), request.checkOut());
         return RoomResponseDto.toDto(room, reservationAvailable);
     }

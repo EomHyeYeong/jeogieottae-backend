@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -48,13 +50,15 @@ public class Room extends BaseEntity {
 	@JoinColumn(name = "accommodation_id")
 	private Accommodation accommodation;
 
+	@Builder.Default
 	@BatchSize(size = 1000)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
-	private List<RoomImage> images;
+	private List<RoomImage> images = new ArrayList<>();
 
+	@Builder.Default
 	@BatchSize(size = 1000)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room", cascade = CascadeType.ALL)
-	private List<Reservation> reservations;
+	private List<Reservation> reservations = new ArrayList<>();
 
 	// room 예약 가능 여부 판단
 	public boolean isReservationAvailable(LocalDateTime checkIn, LocalDateTime checkOut) {
@@ -64,6 +68,10 @@ public class Room extends BaseEntity {
 			}
 		}
 		return true;
+	}
+
+	public void assignAccommodation(Accommodation accommodation) {
+		this.accommodation = accommodation;
 	}
 
 }

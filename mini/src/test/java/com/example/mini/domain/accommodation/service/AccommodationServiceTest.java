@@ -1,183 +1,187 @@
-//package com.example.mini.domain.accommodation.service;
-//
-//import com.example.mini.domain.accommodation.entity.Accommodation;
-//import com.example.mini.domain.accommodation.entity.Room;
-//import com.example.mini.domain.accommodation.fixture.AccommodationEntityFixture;
-//import com.example.mini.domain.accommodation.model.response.*;
-//import com.example.mini.domain.accommodation.repository.AccommodationRepository;
-//import com.example.mini.domain.accommodation.repository.AccommodationSearchRepository;
-//import com.example.mini.domain.accommodation.repository.RoomRepository;
-//import com.example.mini.domain.reservation.entity.Reservation;
-//import com.example.mini.domain.reservation.repository.ReservationRepository;
-//import com.example.mini.global.api.exception.GlobalException;
-//import com.example.mini.global.api.exception.error.AccomodationErrorCode;
-//import com.example.mini.global.model.dto.PagedResponse;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//import org.springframework.data.domain.*;
-//import org.testcontainers.shaded.com.google.common.collect.Lists;
-//
-//import java.time.LocalDateTime;
-//import java.util.*;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.mockito.Mockito.*;
-//
-//class AccomodationServiceTest {
-//
-//    @Mock
-//    private AccommodationRepository accomodationRepository;
-//
-//    @Mock
-//    private AccommodationSearchRepository accomodationSearchRepository;
-//
-//    @Mock
-//    private RoomRepository roomRepository;
-//
-//    @Mock
-//    private ReservationRepository reservationRepository;
-//
-//    @InjectMocks
-//    private AccommodationService accomodationService;
-//
-//    private Accommodation accommodation;
-//    private List<Accommodation> accomodationList;
-//    private Room room;
-//    private List<Room> roomList;
-//    Pageable pageable;
-//
-//    @BeforeEach
-//    public void setup() {
-//        MockitoAnnotations.openMocks(this);
-//
-//        accommodation = AccommodationEntityFixture.getAccommodation();
-//        accomodationList = AccommodationEntityFixture.getAccomodationList();
-//        room = AccommodationEntityFixture.getRoom(accommodation);
-//        roomList = AccommodationEntityFixture.getRoomList();
-//        pageable = PageRequest.of(0, 20);
-//    }
-//
-//    @Test
-//    void 전체_숙소_목록조회_성공() {
-//        Page<Accommodation> page = new PageImpl<>(accomodationList, pageable, accomodationList.size());
-//        List<Room> roomList = Arrays.asList(room);
-//
-//        // When
-//        when(accomodationRepository.findAll(pageable)).thenReturn(page);
-//        when(roomRepository.findMinPriceByAccommodationId(anyLong())).thenReturn(50000);
-//        when(roomRepository.findByAccomodationId(anyLong())).thenReturn(roomList);
-//
-//        // Then
-//        PagedResponse<AccommodationCardResponseDto> result = accomodationService.getAllAccommodations(1);
-//        assertEquals(2, result.getTotalElements());
-//        assertEquals(1, result.getTotalPages());
-//        assertEquals("제주도 펜션", result.getContent().get(0).getName());
-//
-//        verify(accomodationRepository).findAll(pageable);
-//    }
-//
-//    @Test
-//    void 전체숙소_목록조회_리소스_없음_예외_발생() {
-//        Page<Accommodation> page = new PageImpl<>(new ArrayList<Accommodation>(), pageable, 0);
-//        when(accomodationRepository.findAll(pageable)).thenReturn(page);
-//
-//        GlobalException exception = assertThrows(GlobalException.class, () -> accomodationService.getAllAccommodations(1));
-//        assertEquals(AccomodationErrorCode.RESOURCE_NOT_FOUND, exception.getErrorCode());
-//    }
-//
-//    @Test
-//    void 숙소_검색_목록조회_성공() {
-//        Page<Accommodation> page = new PageImpl<>(accomodationList, pageable, accomodationList.size());
-//        List<Long> idList = Lists.newArrayList(1L, 2L);
-//        List<Room> roomList = Arrays.asList(room);
-//        List<AccomodationSearch> searches = Lists.newArrayList(new AccomodationSearch(1L, "제주도 펜션"), new AccomodationSearch(2L, "제주도 호텔"));
-//        List<Reservation> reservationList = new ArrayList<Reservation>();
-//
-//
-//        when(accomodationRepository.findByIdList(idList, pageable)).thenReturn(page);
-//        when(accomodationSearchRepository.findAccommodationsByName(anyString())).thenReturn(searches);
-//        when(roomRepository.findMinPriceByAccommodationId(anyLong())).thenReturn(50000);
-//        when(roomRepository.findByAccomodationId(anyLong())).thenReturn(roomList);
-//        when(reservationRepository.findOverlappingReservations(idList, LocalDateTime.now(), LocalDateTime.now()))
-//                .thenReturn(reservationList);
-//
-//        PagedResponse<AccommodationCardResponseDto> result = accomodationService.searchByAccommodationName("제주도", "", "", "", 1);
-//        assertEquals(2, result.getTotalElements());
-//        assertEquals(1, result.getTotalPages());
-//        assertEquals("제주도 펜션", result.getContent().get(0).getName());
-//
-//        verify(accomodationRepository).findByIdList(anyList(), eq(pageable));
-//    }
-//
-//    @Test
-//    void 숙소_검색_목록조회_리소스_없음_예외_발생() {
-//        Page<Accommodation> page = new PageImpl<>(Arrays.asList(), pageable, 0);
-//        List<Long> idList = Lists.newArrayList();
-//        List<Room> roomList = Arrays.asList();
-//        List<AccomodationSearch> searches = Lists.newArrayList(new AccomodationSearch(1L, "제주도 펜션"), new AccomodationSearch(2L, "제주도 호텔"));
-//        List<Reservation> reservationList = new ArrayList<Reservation>();
-//
-//        when(accomodationRepository.findByIdList(idList, pageable)).thenReturn(page);
-//        when(accomodationSearchRepository.findAccommodationsByName(anyString())).thenReturn(searches);
-//        when(roomRepository.findMinPriceByAccommodationId(anyLong())).thenReturn(50000);
-//        when(roomRepository.findByAccomodationId(anyLong())).thenReturn(roomList);
-//        when(reservationRepository.findOverlappingReservations(idList, LocalDateTime.now(), LocalDateTime.now()))
-//                .thenReturn(reservationList);
-//
-//        GlobalException exception = assertThrows(GlobalException.class, () -> accomodationService.searchByAccommodationName("존재하지않는숙소이름", "", "", "", 1));
-//        assertEquals(AccomodationErrorCode.RESOURCE_NOT_FOUND, exception.getErrorCode());
-//    }
-//
-//    @Test
-//    void 숙소_상세_정보조회_성공() {
-//        List<Long> idList = Lists.newArrayList(1L, 2L);
-//        List<Reservation> reservationList = new ArrayList<Reservation>();
-//
-//        // When
-//        when(accomodationRepository.findById(anyLong())).thenReturn(Optional.ofNullable(accommodation));
-//        when(roomRepository.findByAccomodationId(any())).thenReturn(roomList);
-//        when(reservationRepository.findOverlappingReservations(idList, LocalDateTime.now(), LocalDateTime.now()))
-//                .thenReturn(reservationList);
-//
-//
-//        // Then
-//        AccommodationDetailsResponseDto response = accomodationService.getAccomodationDetails(1L, "", "");
-//        assertEquals("테스트 호텔", response.getAccommodation().getName());
-//        assertEquals(2, response.getRooms().size());
-//        assertEquals("테스트 객실", response.getRooms().get(0).getName());
-//
-//        verify(accomodationRepository).findById(any());
-//        verify(roomRepository).findByAccomodationId(any());
-//    }
-//
-//    @Test
-//    void 객실_상세_정보조회_성공() {
-//        // When
-//        when(roomRepository.findById(any())).thenReturn(Optional.ofNullable(room));
-//
-//        // Then
-//        RoomResponseDto response = accomodationService.getRoomDetail(1L, 1L, "", "");
-//        assertEquals("테스트 객실", response.getName());
-//
-//        verify(roomRepository).findById(any());
-//    }
-//
-//    @Test
-//    void 객실_상세_정보조회_리소스_없음_예외_발생() {
-//        when(roomRepository.findById(anyLong())).thenReturn(java.util.Optional.empty());
-//
-//        GlobalException exception = assertThrows(GlobalException.class, () -> accomodationService.getRoomDetail(1L, 1L, "", ""));
-//        assertEquals(AccomodationErrorCode.RESOURCE_NOT_FOUND, exception.getErrorCode());
-//    }
-//
-//    @Test
-//    void 객실_상세_정보조회_path_variable의_accomodation_id_불일치_예외_발생() {
-//        when(roomRepository.findById(anyLong())).thenReturn(Optional.ofNullable(roomList.get(0)));
-//
-//        GlobalException exception = assertThrows(GlobalException.class, () -> accomodationService.getRoomDetail(accommodation.getId(), roomList.get(0).getId(), "", ""));
-//        assertEquals(AccomodationErrorCode.INVALID_ROOM_REQUEST, exception.getErrorCode());
-//    }
-//}
+package com.example.mini.domain.accommodation.service;
+
+import com.example.mini.domain.accommodation.entity.Accommodation;
+import com.example.mini.domain.accommodation.entity.Room;
+import com.example.mini.domain.accommodation.fixture.AccommodationEntityFixture;
+import com.example.mini.domain.accommodation.fixture.RoomEntityFixture;
+import com.example.mini.domain.accommodation.model.request.AccommodationRequestDto;
+import com.example.mini.domain.accommodation.model.response.AccommodationCardResponseDto;
+import com.example.mini.domain.accommodation.model.response.AccommodationDetailsResponseDto;
+import com.example.mini.domain.accommodation.model.response.RoomResponseDto;
+import com.example.mini.domain.accommodation.repository.AccommodationRepository;
+import com.example.mini.domain.accommodation.repository.RoomRepository;
+import com.example.mini.domain.member.entity.Member;
+import com.example.mini.domain.member.fixture.MemberEntityFixture;
+import com.example.mini.global.api.exception.GlobalException;
+import com.example.mini.global.model.dto.PagedResponse;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+
+@ExtendWith(MockitoExtension.class)
+class AccommodationServiceTest {
+
+    @InjectMocks
+    private AccommodationService accommodationService;
+
+    @Mock
+    private AccommodationRepository accommodationRepository;
+
+    @Mock
+    private RoomRepository roomRepository;
+
+
+    @Test
+    @DisplayName("필터 조건에 맞는 숙소 목록을 페이징하여 조회한다.")
+    void getAccommodationsSuccess() {
+        // given
+        LocalDateTime checkIn = LocalDateTime.now();
+        LocalDateTime checkOut = checkIn.plusDays(1);
+
+        AccommodationRequestDto request =
+                new AccommodationRequestDto(checkIn, checkOut, null, null);
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Accommodation> accommodations = AccommodationEntityFixture.accommodationsForListView();
+
+        Page<Accommodation> page =
+                new PageImpl<>(accommodations, pageable, 1);
+
+        given(accommodationRepository.findAllByFilters(null, null, pageable))
+                .willReturn(page);
+
+        // when
+        PagedResponse<AccommodationCardResponseDto> response =
+                accommodationService.getAccommodations(pageable, request, 1L);
+
+        // then
+        assertThat(response).isNotNull();
+        assertThat(response.getTotalPages()).isEqualTo(1);
+        assertThat(response.getTotalElements()).isEqualTo(3);
+        assertThat(response.getContent()).hasSize(3);
+
+        verify(accommodationRepository).findAllByFilters(null, null, pageable);
+    }
+
+    @Test
+    @DisplayName("좋아요한 숙소는 liked 필드가 true로 설정된다.")
+    void getAccommodations_WithLikedAccommodation() {
+        // given
+        LocalDateTime checkIn = LocalDateTime.now();
+        LocalDateTime checkOut = checkIn.plusDays(1);
+        Pageable pageable = PageRequest.of(0, 10);
+
+        AccommodationRequestDto request =
+                new AccommodationRequestDto(checkIn, checkOut, null, null);
+        Member member = MemberEntityFixture.getMember();
+
+        List<Accommodation> accommodations = AccommodationEntityFixture.accommodationsForListViewWithLiked(member);
+
+        Page<Accommodation> page =
+                new PageImpl<>(accommodations, pageable, 1);
+
+        given(accommodationRepository.findAllByFilters(null, null, pageable))
+                .willReturn(page);
+
+        // when
+        PagedResponse<AccommodationCardResponseDto> response =
+                accommodationService.getAccommodations(pageable, request, 1L);
+
+        // then
+        assertThat(response.getContent().get(1).isLiked()).isTrue();
+    }
+
+    @Test
+    @DisplayName("숙소 ID로 숙소 상세 정보를 조회한다.")
+    void getAccommodationDetailSuccess() {
+        // given
+        LocalDateTime checkIn = LocalDateTime.now();
+        LocalDateTime checkOut = checkIn.plusDays(1);
+        Long accommodationId = 1L;
+        Long memberId = 1L;
+        AccommodationRequestDto request = new AccommodationRequestDto(checkIn, checkOut, null, null);
+
+        Accommodation accommodation = AccommodationEntityFixture.withRoomsReviewsAndLikes();
+
+        given(accommodationRepository.findById(accommodationId)).willReturn(Optional.of(accommodation));
+
+        // when
+        AccommodationDetailsResponseDto response =
+                accommodationService.getAccommodationDetail(accommodationId, request, memberId);
+
+        // then
+        assertThat(response).isNotNull();
+        assertThat(response.getRooms()).hasSize(4);
+        assertThat(response.getAvgStar()).isEqualTo(3.5);
+
+        verify(accommodationRepository).findById(accommodationId);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 숙소 ID로 조회 시 예외가 발생한다.")
+    void getAccommodationDetailNotFound() {
+        // given
+        given(accommodationRepository.findById(1L))
+                .willReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() ->
+                accommodationService.getAccommodationDetail(1L, null, 1L)
+        ).isInstanceOf(GlobalException.class);
+    }
+
+    @Test
+    @DisplayName("리뷰가 없는 경우 평점은 0.0이다.")
+    void getAccommodationDetail_NoReviews() {
+        given(accommodationRepository.findById(1L))
+                .willReturn(Optional.ofNullable(AccommodationEntityFixture.baseAccommodation()));
+
+        AccommodationDetailsResponseDto response = accommodationService.getAccommodationDetail(1L, null, null);
+
+        assertThat(response.getAvgStar()).isEqualTo(0.0);
+    }
+
+    @Test
+    @DisplayName("객실 ID로 상세 정보를 조회한다.")
+    void getRoomDetail() {
+        LocalDateTime checkIn = LocalDateTime.now();
+        LocalDateTime checkOut = checkIn.plusDays(1);
+        AccommodationRequestDto request = new AccommodationRequestDto(checkIn, checkOut, null, null);
+        Long roomId = 3L;
+
+        // given
+        List<Room> rooms = RoomEntityFixture.baseRoomList();
+        Accommodation accommodation = AccommodationEntityFixture.withRooms(rooms);
+        Room room = accommodation.getRooms().get(2);
+
+        given(roomRepository.findById(roomId))
+                .willReturn(Optional.of(room));
+
+        // when
+        RoomResponseDto result =
+                accommodationService.getRoomDetail(1L, roomId, request);
+
+        // then
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(roomId);
+        verify(roomRepository).findById(roomId);
+    }
+
+}

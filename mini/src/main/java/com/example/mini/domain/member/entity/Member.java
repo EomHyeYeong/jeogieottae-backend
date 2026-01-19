@@ -14,6 +14,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -46,14 +48,17 @@ public class Member extends BaseEntity {
 	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
 	private Cart cart;
 
+	@Builder.Default
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
-	private List<Like> likes;
+	private List<Like> likes = new ArrayList<>();
 
+	@Builder.Default
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-	private List<Review> reviews;
+	private List<Review> reviews = new ArrayList<>();
 
+	@Builder.Default
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-	private List<Reservation> reservations;
+	private List<Reservation> reservations = new ArrayList<>();
 
 
 	public void setEmail(String email) {

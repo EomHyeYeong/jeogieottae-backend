@@ -13,6 +13,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,24 +60,29 @@ public class Accommodation extends BaseEntity {
     @Column(nullable = false)
     private AccommodationCategory category;
 
+    @Builder.Default
     @BatchSize(size = 1000)
     @OneToMany(mappedBy = "accommodation")
     private List<Room> rooms = new ArrayList<>();
 
+    @Builder.Default
     @BatchSize(size = 1000)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accommodation", cascade = CascadeType.ALL)
-    private List<Like> likes;
+    private List<Like> likes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "accommodation", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
+    @Builder.Default
     @BatchSize(size = 1000)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accommodation", cascade = CascadeType.ALL)
-	private List<AccommodationImage> images;
+	private List<AccommodationImage> images = new ArrayList<>();
 
+    @Builder.Default
     @BatchSize(size = 1000)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accommodation", cascade = CascadeType.ALL)
-    private List<Reservation> reservations;
+    private List<Reservation> reservations = new ArrayList<>();
 
 	public int calculateMinimumRoomPrice() {
 		return rooms.stream()
@@ -85,13 +91,23 @@ public class Accommodation extends BaseEntity {
 				.orElse(0);
 	}
 
+    // 유저의 좋아요 누름 여부 판단
 	public boolean isLiked(Long memberId) {
-		return likes.stream().anyMatch(like -> like.getMember().getId().equals(memberId));
+        return likes.stream().anyMatch(
+                like -> like.getMember().getId().equals(memberId)
+                        && Boolean.TRUE.equals(like.isLiked()));
 	}
+
+
 
     // 숙소 예약 가능 여부 판단 (rooms 중 하나라도 예약 가능하면 true, 모두 불가면 false)
     public boolean isReservationAvailable(LocalDateTime checkIn, LocalDateTime checkOut) {
         return rooms.stream().anyMatch(room -> room.isReservationAvailable(checkIn, checkOut));
+    }
+
+    public void addRoom(Room room) {
+        rooms.add(room);
+        room.assignAccommodation(this);
     }
 
 }

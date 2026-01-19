@@ -13,4 +13,18 @@ public class LikeEntityFixture {
 			.isLiked(true)
 			.build();
 	}
+
+	public static Like likeBy(Member member) {
+		return Like.builder()
+				.member(member)
+				.isLiked(true)
+				.build();
+	}
+
+	public static Like unlikedBy(Member member) {
+		return Like.builder()
+				.member(member)
+				.isLiked(false)
+				.build();
+	}
 }

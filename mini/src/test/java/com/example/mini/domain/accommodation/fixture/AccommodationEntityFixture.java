@@ -1,11 +1,12 @@
 package com.example.mini.domain.accommodation.fixture;
 
 import com.example.mini.domain.accommodation.entity.Accommodation;
-import com.example.mini.domain.accommodation.entity.AccommodationImage;
 import com.example.mini.domain.accommodation.entity.Room;
-import com.example.mini.domain.accommodation.entity.RoomImage;
 import com.example.mini.domain.accommodation.entity.enums.AccommodationCategory;
-import org.testcontainers.shaded.com.google.common.collect.Lists;
+import com.example.mini.domain.like.entity.Like;
+import com.example.mini.domain.member.entity.Member;
+import com.example.mini.domain.review.fixture.ReviewEntityFixture;
+import com.example.mini.domain.review.entity.Review;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -13,182 +14,81 @@ import java.util.List;
 
 public class AccommodationEntityFixture {
 
-	public static Accommodation getAccomodation() {
-		return Accommodation.builder()
-			.id(1L)
-			.name("테스트 호텔")
-			.description("묵기 좋은 호텔")
-			.postalCode("12345")
-			.address("테스트 주소")
-			.parkingAvailable(true)
-			.cookingAvailable(true)
-			.checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
-			.checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
-			.category(AccommodationCategory.SEOUL)
-			.images(getAccomodationImageUrl())
-			.reviews(Lists.newArrayList())
-			.build();
-	}
+    public static Accommodation withRooms(List<Room> rooms) {
+        Accommodation accommodation = Accommodation.builder().build();
+        rooms.forEach(accommodation::addRoom);
+        return accommodation;
+    }
 
-	public static Room getRoom(Accommodation accommodation) {
-		return Room.builder()
-			.id(1L)
-			.name("테스트 객실")
-			.baseGuests(2)
-			.price(100000)
-			.maxGuests(4)
-			.extraPersonCharge(20000)
-			.accommodation(accommodation)
-			.images(getRoomImageUrl())
-			.build();
-	}
+    public static Accommodation withRoomsPrice(int... prices) {
+        List<Room> rooms = Arrays.stream(prices)
+                .mapToObj(RoomEntityFixture::roomWithPrice)
+                .toList();
 
-	public static Accommodation getAccomodationByCategory(AccommodationCategory category) {
-		return Accommodation.builder()
-				.name("테스트 호텔")
-				.description("묵기 좋은 호텔")
-				.postalCode("12345")
-				.address("테스트 주소")
-				.parkingAvailable(true)
-				.cookingAvailable(true)
-				.checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
-				.checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
-				.category(category)
-				.build();
-	}
+        return withRooms(rooms);
+    }
 
-	public static Accommodation getAccomodation1(AccommodationCategory category) {
-		return Accommodation.builder()
-				.name("테스트 호텔")
-				.description("묵기 좋은 호텔")
-				.postalCode("12345")
-				.address("테스트 주소")
-				.parkingAvailable(true)
-				.cookingAvailable(true)
-				.checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
-				.checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
-				.category(category)
-				.build();
-	}
+    public static Accommodation withLikes(List<Like> likes) {
+        return Accommodation.builder()
+                .likes(likes)
+                .build();
+    }
 
-	public static List<Accommodation> getAccomodationList() {
-		Accommodation accommodation1 = Accommodation.builder()
-				.id(1L)
-				.name("제주도 펜션")
-				.description("묵기 좋은 호텔")
-				.postalCode("12345")
-				.address("테스트 주소")
-				.parkingAvailable(true)
-				.cookingAvailable(true)
-				.checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
-				.checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
-				.category(AccommodationCategory.JEJU)
-				.images(getAccomodationImageUrl())
-				.build();
+    public static Accommodation baseAccommodation() {
+        return Accommodation.builder()
+                .name("test 숙소 이름")
+                .description("test 숙소 설명")
+                .postalCode("12345")
+                .address("test 숙소 주소")
+                .parkingAvailable(true)
+                .cookingAvailable(true)
+                .checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
+                .checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
+                .category(AccommodationCategory.SEOUL)
+                .build();
+    }
 
-		Accommodation accommodation2 = Accommodation.builder()
-				.id(2L)
-				.name("제주도 호텔")
-				.description("묵기 좋은 호텔")
-				.postalCode("12345")
-				.address("테스트 주소")
-				.parkingAvailable(true)
-				.cookingAvailable(true)
-				.checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
-				.checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
-				.category(AccommodationCategory.JEJU)
-				.images(getAccomodationImageUrl())
-				.build();
-		return Lists.newArrayList(accommodation1, accommodation2);
-	}
+    public static Accommodation withCategory(AccommodationCategory category) {
+        return Accommodation.builder()
+                .name("테스트 호텔 이름")
+                .description("테스트 호텔 설명")
+                .postalCode("12345")
+                .address("테스트 호텔 주소")
+                .parkingAvailable(true)
+                .cookingAvailable(true)
+                .checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
+                .checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
+                .category(category)
+                .build();
+    }
 
-	public static List<Room> getRoomList() {
-		Accommodation accommodation = Accommodation.builder()
-				.id(2L)
-				.name("제주도 호텔")
-				.description("묵기 좋은 호텔")
-				.postalCode("12345")
-				.address("테스트 주소")
-				.parkingAvailable(true)
-				.cookingAvailable(true)
-				.checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
-				.checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
-				.category(AccommodationCategory.JEJU)
-				.images(getAccomodationImageUrl())
-				.reviews(Lists.newArrayList())
-				.build();
+    public static List<Accommodation> accommodationsForListView() {
+        LocalDateTime checkIn = LocalDateTime.now();
+        LocalDateTime checkOut = LocalDateTime.now().plusDays(1);
+        return List.of(
+                Accommodation.builder().name("test name 1").checkIn(checkIn).checkOut(checkOut).cookingAvailable(false).parkingAvailable(true).postalCode("12345").address("test address 1").description("test description 1").category(AccommodationCategory.SEOUL).rooms(RoomEntityFixture.baseRoomList()).build(),
+                Accommodation.builder().name("test name 2").checkIn(checkIn).checkOut(checkOut).cookingAvailable(false).parkingAvailable(true).postalCode("12345").address("test address 1").description("test description 1").category(AccommodationCategory.SEOUL).rooms(RoomEntityFixture.baseRoomList()).build(),
+                Accommodation.builder().name("test name 3").checkIn(checkIn).checkOut(checkOut).cookingAvailable(false).parkingAvailable(true).postalCode("12345").address("test address 1").description("test description 1").category(AccommodationCategory.SEOUL).rooms(RoomEntityFixture.baseRoomList()).build()
+        );
+    }
 
-		Room room1 = Room.builder()
-				.id(1L)
-				.name("테스트 객실")
-				.baseGuests(2)
-				.price(100000)
-				.maxGuests(4)
-				.extraPersonCharge(20000)
-				.accommodation(accommodation)
-				.images(getRoomImageUrl())
-				.build();
+    public static Accommodation withRoomsReviewsAndLikes() {
+        List<Room> rooms = RoomEntityFixture.baseRoomList();
+        Review review1 = ReviewEntityFixture.reviewWithStar(4);
+        Review review2 = ReviewEntityFixture.reviewWithStar(3);
 
-		Room room2 = Room.builder()
-				.id(2L)
-				.name("테스트 객실")
-				.baseGuests(2)
-				.price(100000)
-				.maxGuests(4)
-				.extraPersonCharge(20000)
-				.accommodation(accommodation)
-				.images(getRoomImageUrl())
-				.build();
+        return Accommodation.builder()
+                .rooms(rooms)
+                .reviews(List.of(review1, review2))
+                .build();
+    }
 
-		return Lists.newArrayList(room1, room2);
-	}
+    public static List<Accommodation> accommodationsForListViewWithLiked(Member member) {
+        Like like = Like.builder().member(member).isLiked(true).build();
+        return List.of(
+                Accommodation.builder().category(AccommodationCategory.SEOUL).build(),
+                Accommodation.builder().category(AccommodationCategory.SEOUL).likes(List.of(like)).build()
+        );
+    }
 
-	public static List<AccommodationImage> getAccomodationImageUrl() {
-		Accommodation accommodation = Accommodation.builder()
-				.id(1L)
-				.name("테스트 호텔")
-				.description("묵기 좋은 호텔")
-				.postalCode("12345")
-				.address("테스트 주소")
-				.parkingAvailable(true)
-				.cookingAvailable(true)
-				.checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
-				.checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
-				.category(AccommodationCategory.SEOUL)
-				.build();
-
-		return Arrays.asList(
-				AccommodationImage.builder().id(1L).imgUrl("image url 1").accommodation(accommodation).build(),
-				AccommodationImage.builder().id(2L).imgUrl("image url 2").accommodation(accommodation).build());
-	}
-
-	public static List<RoomImage> getRoomImageUrl() {
-		Accommodation accommodation = Accommodation.builder()
-				.id(1L)
-				.name("테스트 호텔")
-				.description("묵기 좋은 호텔")
-				.postalCode("12345")
-				.address("테스트 주소")
-				.parkingAvailable(true)
-				.cookingAvailable(true)
-				.checkIn(LocalDateTime.of(2023, 7, 1, 14, 0))
-				.checkOut(LocalDateTime.of(2023, 7, 2, 11, 0))
-				.category(AccommodationCategory.SEOUL)
-				.images(getAccomodationImageUrl())
-				.build();
-
-		Room room = Room.builder()
-				.id(1L)
-				.name("테스트 객실")
-				.baseGuests(2)
-				.price(100000)
-				.maxGuests(4)
-				.extraPersonCharge(20000)
-				.accommodation(accommodation)
-				.build();
-
-		return Arrays.asList(
-				RoomImage.builder().id(1L).imgUrl("image url 1").room(room).build(),
-				RoomImage.builder().id(2L).imgUrl("image url 2").room(room).build());
-	}
 }

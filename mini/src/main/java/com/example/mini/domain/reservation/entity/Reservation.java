@@ -8,8 +8,10 @@ import com.example.mini.domain.accommodation.entity.Room;
 import com.example.mini.domain.accommodation.entity.Accommodation;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,8 +41,9 @@ public class Reservation extends BaseEntity {
 	@Column(nullable = false)
 	private LocalDateTime checkOut;
 
+	@Builder.Default
 	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Cart> cart;
+	private List<Cart> cart = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "room_id", nullable = false)
