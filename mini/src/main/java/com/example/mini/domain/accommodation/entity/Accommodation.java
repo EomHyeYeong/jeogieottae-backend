@@ -105,4 +105,9 @@ public class Accommodation extends BaseEntity {
         return rooms.stream().anyMatch(room -> room.isReservationAvailable(checkIn, checkOut));
     }
 
+    public void addRoom(Room room) {
+        rooms.add(room);
+        room.assignAccommodation(this);
+    }
+
 }
