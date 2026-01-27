@@ -110,4 +110,12 @@ public class Accommodation extends BaseEntity {
         room.assignAccommodation(this);
     }
 
+    // 리뷰 별점 평점 계산
+    public Double calculateAverageStar() {
+        double average = reviews.stream().mapToDouble(Review::getStar)
+                .average()
+                .orElse(0.0);
+        return Math.round(average * 10) / 10.0;  // 소수점 1자리 반올림
+    }
+
 }
