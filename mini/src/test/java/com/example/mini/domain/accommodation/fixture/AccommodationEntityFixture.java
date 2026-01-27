@@ -91,4 +91,15 @@ public class AccommodationEntityFixture {
         );
     }
 
+    public static Accommodation withReviews() {
+        List<Review> reviews = List.of(
+                ReviewEntityFixture.reviewWithStar(5),
+                ReviewEntityFixture.reviewWithStar(3),
+                ReviewEntityFixture.reviewWithStar(3)
+        );
+        return Accommodation.builder()
+                .reviews(reviews)
+                .build();
+    }
+
 }

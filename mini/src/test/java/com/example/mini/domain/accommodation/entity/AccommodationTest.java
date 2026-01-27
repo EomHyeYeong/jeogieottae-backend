@@ -127,4 +127,17 @@ class AccommodationTest {
         assertThat(isReservationAvailable).isFalse();
     }
 
+    @Test
+    @DisplayName("리뷰 별점의 평점을 계산한다.")
+    void calculateAverageStar() {
+        // given
+        Accommodation accommodation = AccommodationEntityFixture.withReviews();
+
+        // when
+        Double avgStar = accommodation.calculateAverageStar();
+
+        // then
+        assertThat(avgStar).isEqualTo(3.7);
+    }
+
 }
