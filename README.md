@@ -6,11 +6,6 @@
 또한, 숙소명과 지역별 및 체크인 날짜별로 세부적인 검색이 가능하며, 이용자 리뷰를 통해 신뢰할 수 있는 정보를 얻을 수 있습니다.
 
 #### 개발 기간 2024.06.17 ~ 2024.07.07
-#### <div>
-  <a href="https://your-trip-pied.vercel.app/" target="_blank">
-    <img src="https://img.shields.io/badge/저기어때 서비스  바로가기-3b82f6?style=for-the-badge&logoColor=white" alt="저기어때 바로가기"/>
-  </a>
-</div>
 
 ## 사용 기술 🔧
 
@@ -18,7 +13,6 @@
 |-----------------------|--------------------------------------------------------------------|
 | **프레임워크 및 언어**    | Spring Boot, JDK 17, Gradle                                      |
 | **DB/캐싱**              | MySQL, Redis(Lettuce,  Redisson)                                  |
-| **검색 엔진**            | ElasticSearch                                                   |
 | **배포 & 컨테이너**       | Amazon EC2, Github Actions, Docker(Docker Hub, Docker Compose) |
 | **테스트 및 성능 모니터링** | Junit, K6                 
 
@@ -59,13 +53,6 @@ k6로 확인 후 시나리오 반복 평균 실행 시간을 줄이기 위해 �
 성능 최적화를 위해 **Spring Batch** 기법을 도입하여 비동기 처리하여 데이터 일괄 처리와 스케줄링을 효율적으로 관리하였습니다. 
 
 ![bandicam 2024-07-23 01-24-12-768](https://github.com/user-attachments/assets/455d5eb6-6bc5-4eb4-885f-61416437f36e)
-
-### 🔸  검색 
-숙소 이름, 지역 카테고리, 체크인/아웃에 대한 검색이 가능합니다.<br>
-그 중에서 숙소 이름 검색 기능의 경우 full text search 기능이 제공되는 검색 엔진인 Elasticsearch를 사용해 검색 기능을 구현하였습니다.<br>
-API 서버로 사용중인 EC2 인스턴스의 메모리 및 저장공간에 의한 불안정을 확인하여 Elasticsearch 서버를 별개로 운영 하였습니다.<br>
-DB의 accommodation 테이블 데이터 중 일부인 id와 name을 Elasticsearch index에 추가로 저장합니다.<br>
-클라이언트에게서 검색 요청이 들어오면 1차적으로 각 조건에 부합하는 숙소의 id를 얻어내고, 해당하는 id의 숙소 데이터를 DB에서 조회하는 방식으로 데이터를 조회합니다.
 
 ### 🔸 배포 
 배포는 GitHub Actions를 통해 자동화된 빌드 및 배포를 수행하고, Docker와 Docker Hub를 사용하여 컨테이너화된 애플리케이션 이미지를 관리하였습니다. 클라우드 인프라는 Amazon EC2를 사용하여 애플리케이션을 호스팅하였으며, HTTP를 HTTPS로 변환하기 위해 **Certbot**을 사용하여 SSL 인증서를 발급받아 보안을 강화하였습니다.
